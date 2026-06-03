@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "title": "BRAINST — Studio de arhitectura peisagera si cercetare",
+    "description": "Un studio de arhitectura peisagera si cercetare care exploreaza relatia dintre oameni, natura si mediul construit."
+  },
+  "nav": {
+    "studio": "Studio",
+    "brainstormingEngine": "BrainStorming Engine",
+    "projects": "Proiecte",
+    "research": "Cercetare",
+    "publications": "Publicatii",
+    "services": "Servicii",
+    "contact": "Contact"
+  },
+  "hero": {
+    "welcome": "Bine ati venit la Brain Street",
+    "line1": "Ideile vin primele.",
+    "line2": "BrainStorming-ul este partea distractiva.",
+    "line3": "Apoi trecem la lucru.",
+    "scroll": "Exploreaza"
+  },
+  "home": {
+    "manifestoTitle": "Fiecare proiect este o calatorie",
+    "manifesto": "Unele devin parcuri. Altele devin spatii publice. Unele devin strategii. Unele devin cercetare. Toate incep cu curiozitate.",
+    "intersection": "La intersectia dintre design, cercetare si inteligenta de mediu, BrainSt creeaza locuri care raspund atat oamenilor, cat si planetei.",
+    "sections": {
+      "studio": "Filosofie si practica",
+      "projects": "Lucrari selectate",
+      "research": "Atlas de cercetare",
+      "publications": "Arhiva editoriala",
+      "services": "Ce facem",
+      "contact": "Incepe o conversatie"
+    },
+    "ctaExplore": "Exploreaza"
+  },
+  "brainstorming": {
+    "cta": "Incepe BrainStorming"
+  },
+  "studio": {
+    "title": "Studio",
+    "subtitle": "Curiozitate, gandire de design si inteligenta de mediu",
+    "pillars": {
+      "curiosity": { "title": "Curiozitate", "text": "Fiecare proiect incepe cu o intrebare la care nimeni nu a raspuns inca." },
+      "design": { "title": "Gandire de design", "text": "Schitele, plimbarile, hartile si conversatiile modeleaza ceea ce un loc poate deveni." },
+      "research": { "title": "Cercetare", "text": "Dovezile sustin imaginatia — de la rezultate pentru sanatate la performanta ecologica." },
+      "intelligence": { "title": "Inteligenta de mediu", "text": "GIS, analiza spatiala si straturile de date informeaza strategii reziliente." },
+      "human": { "title": "Centrat pe oameni", "text": "Locuri proiectate pentru felul in care oamenii traiesc, se misca, simt si se refac." }
+    }
+  },
+  "projects": {
+    "title": "Proiecte Selectate",
+    "subtitle": "Un peisaj de idei — parcuri, spatii publice, strategii si cercetare",
+    "filterAll": "Toate",
+    "viewProject": "Vezi proiectul",
+    "location": "Locatie",
+    "researchInsight": "Insight de cercetare",
+    "before": "Inainte",
+    "after": "Dupa",
+    "categories": {
+      "landscape": "Arhitectura Peisagera",
+      "urban": "Design Urban",
+      "research": "Cercetare",
+      "nbs": "Solutii Bazate pe Natura",
+      "gis": "GIS",
+      "competition": "Concursuri"
+    }
+  },
+  "research": {
+    "title": "Atlas de Cercetare",
+    "subtitle": "Harti, seturi de date, analize si inteligenta de mediu",
+    "download": "Descarca PDF",
+    "layers": "Straturi de mediu",
+    "gis": "Analize GIS"
+  },
+  "publications": {
+    "title": "Publicatii",
+    "subtitle": "Articole stiintifice, conferinte si rapoarte",
+    "search": "Cauta publicatii...",
+    "filter": "Filtreaza dupa tip",
+    "all": "Toate",
+    "types": {
+      "journal": "Revista",
+      "conference": "Conferinta",
+      "report": "Raport"
+    }
+  },
+  "services": {
+    "title": "Servicii",
+    "subtitle": "De la viziune peisagera la inteligenta spatiala",
+    "items": {
+      "landscape": "Arhitectura Peisagera",
+      "urban": "Design Urban",
+      "research": "Cercetare",
+      "gis": "Analiza GIS",
+      "assessment": "Evaluare de Mediu",
+      "nbs": "Solutii Bazate pe Natura",
+      "consultancy": "Consultanta"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Fiecare proiect incepe cu o conversatie",
+    "email": "hello@brainst.studio",
+    "form": {
+      "name": "Nume",
+      "email": "Email",
+      "message": "Spune-ne despre proiectul sau intrebarea ta",
+      "send": "Trimite mesajul",
+      "sending": "Se trimite...",
+      "success": "Multumim — revenim in curand."
+    }
+  },
+  "footer": {
+    "tagline": "Brain Street — acolo unde ideile intalnesc peisajul.",
+    "rights": "Toate drepturile rezervate."
+  },
+  "lang": {
+    "en": "EN",
+    "it": "IT",
+    "ro": "RO"
+  },
+  "menu": {
+    "open": "Meniu",
+    "close": "Inchide"
+  }
+}

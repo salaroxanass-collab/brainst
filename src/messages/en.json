@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "title": "BRAINST — Landscape Architecture & Research Studio",
+    "description": "A landscape architecture and research studio exploring the relationship between people, nature, and the built environment."
+  },
+  "nav": {
+    "studio": "Studio",
+    "brainstormingEngine": "BrainStorming Engine",
+    "projects": "Projects",
+    "research": "Research",
+    "publications": "Publications",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "hero": {
+    "welcome": "Welcome to Brain Street",
+    "line1": "Ideas come first.",
+    "line2": "BrainStorming is the fun part.",
+    "line3": "Then we get to work.",
+    "scroll": "Explore"
+  },
+  "home": {
+    "manifestoTitle": "Every project is a journey",
+    "manifesto": "Some become parks. Some become public spaces. Some become strategies. Some become research. All begin with curiosity.",
+    "intersection": "At the intersection of design, research, and environmental intelligence, BrainSt creates places that respond to both people and planet.",
+    "sections": {
+      "studio": "Philosophy & practice",
+      "projects": "Selected work",
+      "research": "Research atlas",
+      "publications": "Editorial archive",
+      "services": "What we do",
+      "contact": "Start a conversation"
+    },
+    "ctaExplore": "Explore"
+  },
+  "brainstorming": {
+    "cta": "Start BrainStorming"
+  },
+  "studio": {
+    "title": "Studio",
+    "subtitle": "Curiosity, design thinking, and environmental intelligence",
+    "pillars": {
+      "curiosity": { "title": "Curiosity", "text": "Every project starts with a question nobody has solved yet." },
+      "design": { "title": "Design thinking", "text": "Sketches, walks, maps, and conversations shape what a place could become." },
+      "research": { "title": "Research", "text": "Evidence grounds imagination — from health outcomes to ecological performance." },
+      "intelligence": { "title": "Environmental intelligence", "text": "GIS, spatial analysis, and data layers inform resilient strategies." },
+      "human": { "title": "Human-centred", "text": "Places designed for how people live, move, feel, and heal." }
+    }
+  },
+  "projects": {
+    "title": "Selected Projects",
+    "subtitle": "A landscape of ideas — parks, public spaces, strategies, and research",
+    "filterAll": "All",
+    "viewProject": "View project",
+    "location": "Location",
+    "researchInsight": "Research insight",
+    "before": "Before",
+    "after": "After",
+    "categories": {
+      "landscape": "Landscape Architecture",
+      "urban": "Urban Design",
+      "research": "Research",
+      "nbs": "Nature-Based Solutions",
+      "gis": "GIS",
+      "competition": "Competitions"
+    }
+  },
+  "research": {
+    "title": "Research Atlas",
+    "subtitle": "Maps, datasets, analyses, and environmental intelligence",
+    "download": "Download PDF",
+    "layers": "Environmental layers",
+    "gis": "GIS analyses"
+  },
+  "publications": {
+    "title": "Publications",
+    "subtitle": "Journal papers, conference proceedings, and reports",
+    "search": "Search publications…",
+    "filter": "Filter by type",
+    "all": "All",
+    "types": {
+      "journal": "Journal",
+      "conference": "Conference",
+      "report": "Report"
+    }
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "From landscape vision to spatial intelligence",
+    "items": {
+      "landscape": "Landscape Architecture",
+      "urban": "Urban Design",
+      "research": "Research",
+      "gis": "GIS Analysis",
+      "assessment": "Environmental Assessment",
+      "nbs": "Nature-Based Solutions",
+      "consultancy": "Consultancy"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Every project begins with a conversation",
+    "email": "hello@brainst.studio",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Tell us about your project or question",
+      "send": "Send message",
+      "sending": "Sending…",
+      "success": "Thank you — we'll be in touch soon."
+    }
+  },
+  "footer": {
+    "tagline": "Brain Street — where ideas meet landscape.",
+    "rights": "All rights reserved."
+  },
+  "lang": {
+    "en": "EN",
+    "it": "IT",
+    "ro": "RO"
+  },
+  "menu": {
+    "open": "Menu",
+    "close": "Close"
+  }
+}

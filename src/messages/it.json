@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "title": "BRAINST — Studio di Architettura del Paesaggio e Ricerca",
+    "description": "Uno studio di architettura del paesaggio e ricerca che esplora la relazione tra persone, natura e ambiente costruito."
+  },
+  "nav": {
+    "studio": "Studio",
+    "brainstormingEngine": "BrainStorming Engine",
+    "projects": "Progetti",
+    "research": "Ricerca",
+    "publications": "Pubblicazioni",
+    "services": "Servizi",
+    "contact": "Contatti"
+  },
+  "hero": {
+    "welcome": "Benvenuti su Brain Street",
+    "line1": "Le idee vengono prima.",
+    "line2": "Il BrainStorming è la parte divertente.",
+    "line3": "Poi si lavora.",
+    "scroll": "Esplora"
+  },
+  "home": {
+    "manifestoTitle": "Ogni progetto è un viaggio",
+    "manifesto": "Alcuni diventano parchi. Altri spazi pubblici. Strategie o ricerca. Tutti iniziano con curiosità.",
+    "intersection": "All'intersezione tra design, ricerca e intelligenza ambientale, BrainSt crea luoghi che rispondono alle persone e al pianeta.",
+    "sections": {
+      "studio": "Filosofia e pratica",
+      "projects": "Lavori selezionati",
+      "research": "Atlante della ricerca",
+      "publications": "Archivio editoriale",
+      "services": "Cosa facciamo",
+      "contact": "Inizia una conversazione"
+    },
+    "ctaExplore": "Esplora"
+  },
+  "brainstorming": {
+    "cta": "Inizia il BrainStorming"
+  },
+  "studio": {
+    "title": "Studio",
+    "subtitle": "Curiosità, design thinking e intelligenza ambientale",
+    "pillars": {
+      "curiosity": { "title": "Curiosità", "text": "Ogni progetto inizia con una domanda ancora senza risposta." },
+      "design": { "title": "Design thinking", "text": "Schizzi, passeggiate, mappe e dialoghi definiscono ciò che un luogo può diventare." },
+      "research": { "title": "Ricerca", "text": "L'evidenza sostiene l'immaginazione — dalla salute alle prestazioni ecologiche." },
+      "intelligence": { "title": "Intelligenza ambientale", "text": "GIS, analisi spaziale e dati informano strategie resilienti." },
+      "human": { "title": "Centrato sull'uomo", "text": "Luoghi progettati per come le persone vivono, si muovono e si rigenerano." }
+    }
+  },
+  "projects": {
+    "title": "Progetti Selezionati",
+    "subtitle": "Un paesaggio di idee — parchi, spazi pubblici, strategie e ricerca",
+    "filterAll": "Tutti",
+    "viewProject": "Vedi progetto",
+    "location": "Luogo",
+    "researchInsight": "Insight di ricerca",
+    "before": "Prima",
+    "after": "Dopo",
+    "categories": {
+      "landscape": "Architettura del Paesaggio",
+      "urban": "Progettazione Urbana",
+      "research": "Ricerca",
+      "nbs": "Soluzioni Basate sulla Natura",
+      "gis": "GIS",
+      "competition": "Concorsi"
+    }
+  },
+  "research": {
+    "title": "Atlante della Ricerca",
+    "subtitle": "Mappe, dataset, analisi e intelligenza ambientale",
+    "download": "Scarica PDF",
+    "layers": "Strati ambientali",
+    "gis": "Analisi GIS"
+  },
+  "publications": {
+    "title": "Pubblicazioni",
+    "subtitle": "Articoli, convegni e report",
+    "search": "Cerca pubblicazioni…",
+    "filter": "Filtra per tipo",
+    "all": "Tutti",
+    "types": {
+      "journal": "Rivista",
+      "conference": "Convegno",
+      "report": "Report"
+    }
+  },
+  "services": {
+    "title": "Servizi",
+    "subtitle": "Dalla visione del paesaggio all'intelligenza spaziale",
+    "items": {
+      "landscape": "Architettura del Paesaggio",
+      "urban": "Progettazione Urbana",
+      "research": "Ricerca",
+      "gis": "Analisi GIS",
+      "assessment": "Valutazione Ambientale",
+      "nbs": "Soluzioni Basate sulla Natura",
+      "consultancy": "Consulenza"
+    }
+  },
+  "contact": {
+    "title": "Contatti",
+    "subtitle": "Ogni progetto inizia con una conversazione",
+    "email": "hello@brainst.studio",
+    "form": {
+      "name": "Nome",
+      "email": "Email",
+      "message": "Raccontaci il tuo progetto o la tua domanda",
+      "send": "Invia messaggio",
+      "sending": "Invio in corso…",
+      "success": "Grazie — ti risponderemo presto."
+    }
+  },
+  "footer": {
+    "tagline": "Brain Street — dove le idee incontrano il paesaggio.",
+    "rights": "Tutti i diritti riservati."
+  },
+  "lang": {
+    "en": "EN",
+    "it": "IT",
+    "ro": "RO"
+  },
+  "menu": {
+    "open": "Menu",
+    "close": "Chiudi"
+  }
+}
