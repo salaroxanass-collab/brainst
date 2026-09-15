@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { Locale } from "@/lib/types";
@@ -15,17 +15,21 @@ import {
 } from "@/lib/brainstorming";
 
 const examplePrompts = [
-  "Mediterranean courtyard with clay paving and drought-resistant planting",
+  "Italian civic landscape with planting, heritage and warm paving",
   "Climate-resilient schoolyard with nature-based solutions",
+  "Biodiversity school with roof habitats and outdoor learning",
   "Urban plaza with shade structures and playful seating",
-  "Ecological waterfront park with naturalistic planting",
-  "Contemporary public space using timber and rain gardens",
+  "Primary schoolyard with playable topography and orchard planting",
 ];
 
 const filterGroups = [
   {
     label: "Typology",
     values: ["Courtyard", "Schoolyard", "Public plaza", "Waterfront park"],
+  },
+  {
+    label: "Location",
+    values: ["Italy", "Rome", "Milan", "Bologna", "Mediterranean"],
   },
   {
     label: "Materials",
@@ -80,6 +84,11 @@ const copy = {
     architecture: "Future data architecture",
     pipeline: "Implementation pipeline",
     sourceCredit: "Every result links back to the original source. Exports must include credits.",
+    searching: "Searching real reference index",
+    dataModeSeed: "Seed examples",
+    dataModeDatabase: "Database results",
+    viewReference: "View reference",
+    sourcePage: "Source page",
   },
   it: {
     eyebrow: "Laboratorio prodotto BrainSt",
@@ -115,6 +124,11 @@ const copy = {
     architecture: "Architettura dati futura",
     pipeline: "Pipeline di implementazione",
     sourceCredit: "Ogni risultato rimanda alla fonte originale. Gli export devono includere i crediti.",
+    searching: "Ricerca nell'indice reale",
+    dataModeSeed: "Esempi seed",
+    dataModeDatabase: "Risultati database",
+    viewReference: "Apri riferimento",
+    sourcePage: "Pagina fonte",
   },
   ro: {
     eyebrow: "Laborator de produs BrainSt",
@@ -150,6 +164,11 @@ const copy = {
     architecture: "Arhitectura de date viitoare",
     pipeline: "Pipeline de implementare",
     sourceCredit: "Fiecare rezultat trimite catre sursa originala. Exporturile trebuie sa includa credite.",
+    searching: "Cautare in indexul real",
+    dataModeSeed: "Exemple seed",
+    dataModeDatabase: "Rezultate din baza de date",
+    viewReference: "Vezi referinta",
+    sourcePage: "Pagina sursa",
   },
 };
 
@@ -159,18 +178,75 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [brainstormed, setBrainstormed] = useState(false);
+  const [remoteResults, setRemoteResults] = useState<BrainstormReference[] | null>(null);
+  const [dataMode, setDataMode] = useState<"seed" | "database">("seed");
+  const [isSearching, setIsSearching] = useState(false);
 
-  const results = useMemo(
+  const seedResults = useMemo(
     () => searchBrainstormReferences(query, activeFilters),
     [query, activeFilters]
   );
 
+  const results = remoteResults ?? seedResults;
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(async () => {
+      setIsSearching(true);
+
+      try {
+        const response = await fetch("/api/brainstorming/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt: query,
+            filters: { selected: activeFilters },
+            locale,
+            limit: 24,
+          }),
+          signal: controller.signal,
+        });
+
+        if (!response.ok) throw new Error("Search request failed");
+        const payload = (await response.json()) as {
+          mode?: "seed" | "database";
+          results?: BrainstormReference[];
+        };
+
+        setRemoteResults(payload.results ?? null);
+        setDataMode(payload.mode ?? "seed");
+      } catch {
+        if (!controller.signal.aborted) {
+          setRemoteResults(null);
+          setDataMode("seed");
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsSearching(false);
+        }
+      }
+    }, 260);
+
+    return () => {
+      controller.abort();
+      window.clearTimeout(timeout);
+    };
+  }, [activeFilters, locale, query]);
+
+  const selectableReferences = useMemo(() => {
+    const byId = new Map<string, BrainstormReference>();
+    [...results, ...brainstormReferences].forEach((reference) => {
+      byId.set(reference.id, reference);
+    });
+    return Array.from(byId.values());
+  }, [results]);
+
   const selectedReferences = useMemo(
     () =>
-      brainstormReferences.filter((reference) =>
+      selectableReferences.filter((reference) =>
         selectedIds.includes(reference.id)
       ),
-    [selectedIds]
+    [selectableReferences, selectedIds]
   );
 
   const inferred = inferBrainstorm(query, activeFilters, results, locale);
@@ -324,7 +400,7 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
           <div className="mt-14 flex items-end justify-between gap-6 border-t border-charcoal/10 pt-8">
             <div>
               <p className="font-display text-[10px] tracking-[0.3em] text-clay uppercase">
-                {t.results}
+                {t.results} · {isSearching ? t.searching : dataMode === "database" ? t.dataModeDatabase : t.dataModeSeed}
               </p>
               <h2 className="mt-2 font-display text-4xl tracking-[0.08em] text-forest uppercase md:text-5xl">
                 {results.length} references
@@ -396,6 +472,7 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
                 labelSelect={t.select}
                 labelSelected={t.selectedLabel}
                 labelRemove={t.remove}
+                labelViewReference={t.viewReference}
                 onToggle={() => toggleReference(reference)}
                 index={index}
               />
@@ -449,6 +526,14 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
                     <p className="mt-2 font-display text-[9px] tracking-[0.18em] text-offwhite/60 uppercase">
                       {sourceName(reference.sourceId)} · {reference.designer}
                     </p>
+                    <a
+                      href={reference.sourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-3 inline-flex border border-offwhite/20 px-3 py-2 font-display text-[9px] tracking-[0.18em] text-sand uppercase transition hover:border-clay hover:text-clay"
+                    >
+                      {t.sourcePage} →
+                    </a>
                   </figure>
                 ))}
               </div>
@@ -509,6 +594,7 @@ function ReferenceCard({
   labelSelect,
   labelSelected,
   labelRemove,
+  labelViewReference,
   onToggle,
   index,
 }: {
@@ -518,6 +604,7 @@ function ReferenceCard({
   labelSelect: string;
   labelSelected: string;
   labelRemove: string;
+  labelViewReference: string;
   onToggle: () => void;
   index: number;
 }) {
@@ -580,6 +667,14 @@ function ReferenceCard({
       <p className="mt-4 font-serif text-lg text-charcoal-muted">
         {localized(reference.aiSummary, locale)}
       </p>
+      <a
+        href={reference.sourceUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="mt-4 inline-flex border border-clay/40 px-4 py-3 font-display text-[9px] tracking-[0.18em] text-clay uppercase transition hover:border-forest hover:text-forest"
+      >
+        {labelViewReference} →
+      </a>
       <div className="mt-4 flex flex-wrap gap-2">
         {reference.tags.slice(0, 6).map((tag) => (
           <span

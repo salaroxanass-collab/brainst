@@ -31,8 +31,28 @@ Open [http://localhost:3000](http://localhost:3000) — default locale redirects
 | `SANITY_API_TOKEN` | Optional, for preview/drafts |
 | `NEXT_PUBLIC_MAPBOX_TOKEN` | Mapbox public token for interactive maps |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for SEO |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL for BrainStorming Engine |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key for client-safe reads/auth |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key for ingestion/admin jobs |
+| `OPENAI_API_KEY` | Server-only key for future AI tagging and embeddings |
+| `BRAINSTORMING_EMBEDDING_MODEL` | Embedding model, default `text-embedding-3-small` |
+| `BRAINSTORMING_EMBEDDING_DIMENSIONS` | Embedding vector dimensions, default `1536` |
 
 Without Mapbox, maps show an elegant GIS-style placeholder. Without Sanity, the site uses curated sample content in `src/lib/data.ts`.
+
+## BrainStorming Engine data model
+
+The BrainStorming Engine now has a Supabase-ready data model in `supabase/migrations/202609150001_brainstorming_engine.sql`.
+
+Supporting notes live in `docs/brainstorming-engine-data-model.md`. The UI calls server API routes and uses Supabase when keys are configured; otherwise it falls back to curated seed examples.
+
+After applying the migration and adding Supabase keys:
+
+```bash
+npm run brainstorming:seed
+```
+
+Set `OPENAI_API_KEY` before seeding if you want semantic embeddings generated immediately.
 
 ## Sanity CMS setup
 
@@ -53,6 +73,7 @@ Schemas live in `sanity/schemaTypes/` for **Projects**, **Research**, **Publicat
 |-------|-------------|
 | `/[locale]` | Immersive homepage narrative |
 | `/[locale]/studio` | Philosophy & visual storytelling |
+| `/[locale]/brainstorming-engine` | Landscape architecture reference search and moodboard engine |
 | `/[locale]/projects` | Filterable project index (7 samples) |
 | `/[locale]/projects/[slug]` | Visual-first project story |
 | `/[locale]/research` | Research atlas |
