@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { Locale } from "@/lib/types";
@@ -235,6 +235,8 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
   const [remoteResults, setRemoteResults] = useState<BrainstormReference[] | null>(null);
   const [dataMode, setDataMode] = useState<"seed" | "database">("seed");
   const [isSearching, setIsSearching] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const resultsSectionRef = useRef<HTMLDivElement | null>(null);
 
   const seedResults = useMemo(
     () => searchBrainstormReferences(query, activeFilters),
@@ -330,8 +332,16 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
 
   function generateBrainstorm() {
     const curated = results.length > 0 ? results : brainstormReferences;
+    setIsGenerating(true);
     setSelectedIds(curated.slice(0, 3).map((reference) => reference.id));
     setBrainstormed(true);
+    window.setTimeout(() => {
+      resultsSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 180);
+    window.setTimeout(() => setIsGenerating(false), 1100);
   }
 
   return (
@@ -384,7 +394,10 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
               <button
                 type="button"
                 onClick={generateBrainstorm}
-                className="bg-clay px-5 py-3 font-display text-[10px] tracking-[0.24em] text-offwhite uppercase transition hover:bg-clay-dark"
+                aria-busy={isGenerating}
+                className={`bg-clay px-5 py-3 font-display text-[10px] tracking-[0.24em] text-offwhite uppercase transition hover:bg-clay-dark active:scale-95 ${
+                  isGenerating ? "animate-pulse ring-2 ring-clay/40 ring-offset-2 ring-offset-forest" : ""
+                }`}
               >
                 {t.generate}
               </button>
@@ -488,7 +501,10 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
             </div>
           )}
 
-          <div className="mt-14 flex items-end justify-between gap-6 border-t border-charcoal/10 pt-8">
+          <div
+            ref={resultsSectionRef}
+            className="scroll-mt-28 mt-14 flex items-end justify-between gap-6 border-t border-charcoal/10 pt-8"
+          >
             <div>
               <p className="font-display text-[10px] tracking-[0.3em] text-clay uppercase">
                 {t.results} · {isSearching ? t.searching : dataMode === "database" ? t.dataModeDatabase : t.dataModeSeed}
