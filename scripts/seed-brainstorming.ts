@@ -27,8 +27,9 @@ async function main() {
           slug: source.id,
           name: source.name,
           homepage_url: source.homepage,
-          status: "approved",
+          status: source.status,
           permission_status: "limited",
+          permission_notes: source.focus,
           allowed_content: {
             title: true,
             designer: true,

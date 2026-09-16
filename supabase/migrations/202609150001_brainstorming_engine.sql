@@ -576,6 +576,76 @@ insert into brainstorming.sources (
     'Project reference from Landezine. View original: {source_url}.'
   ),
   (
+    'landscape-performance-series',
+    'Landscape Performance Series',
+    'https://www.landscapeperformance.org',
+    'pending',
+    'https://www.landscapeperformance.org/robots.txt',
+    'unknown',
+    '{"title": true, "designer": true, "location": true, "snippet": true, "thumbnail": false, "image_url": false, "source_url": true}'::jsonb,
+    'Performance case study reference from Landscape Performance Series. View original: {source_url}.'
+  ),
+  (
+    'lila',
+    'LILA',
+    'https://landezine-award.com',
+    'pending',
+    'https://landezine-award.com/robots.txt',
+    'unknown',
+    '{"title": true, "designer": true, "location": true, "snippet": true, "thumbnail": false, "image_url": false, "source_url": true}'::jsonb,
+    'Award reference from LILA. View original: {source_url}.'
+  ),
+  (
+    'world-landscape-architecture',
+    'World Landscape Architecture',
+    'https://worldlandscapearchitect.com/general/project/',
+    'pending',
+    'https://worldlandscapearchitect.com/robots.txt',
+    'unknown',
+    '{"title": true, "designer": true, "location": true, "snippet": true, "thumbnail": false, "image_url": false, "source_url": true}'::jsonb,
+    'Project reference from World Landscape Architecture. View original: {source_url}.'
+  ),
+  (
+    'archdaily',
+    'ArchDaily',
+    'https://www.archdaily.com/search/projects/categories/landscape-architecture',
+    'pending',
+    'https://www.archdaily.com/robots.txt',
+    'unknown',
+    '{"title": true, "designer": true, "location": true, "snippet": true, "thumbnail": false, "image_url": false, "source_url": true}'::jsonb,
+    'Project reference from ArchDaily. View original: {source_url}.'
+  ),
+  (
+    'asla',
+    'ASLA Professional Awards',
+    'https://www.asla.org/awards',
+    'pending',
+    'https://www.asla.org/robots.txt',
+    'unknown',
+    '{"title": true, "designer": true, "location": true, "snippet": true, "thumbnail": false, "image_url": false, "source_url": true}'::jsonb,
+    'Awards reference from ASLA Professional Awards. View original: {source_url}.'
+  ),
+  (
+    'landscape-architecture-magazine',
+    'Landscape Architecture Magazine',
+    'https://landscapearchitecturemagazine.org',
+    'pending',
+    'https://landscapearchitecturemagazine.org/robots.txt',
+    'unknown',
+    '{"title": true, "designer": true, "location": true, "snippet": true, "thumbnail": false, "image_url": false, "source_url": true}'::jsonb,
+    'Article reference from Landscape Architecture Magazine. View original: {source_url}.'
+  ),
+  (
+    'landscape-australia',
+    'Landscape Australia',
+    'https://landscapeaustralia.com',
+    'pending',
+    'https://landscapeaustralia.com/robots.txt',
+    'unknown',
+    '{"title": true, "designer": true, "location": true, "snippet": true, "thumbnail": false, "image_url": false, "source_url": true}'::jsonb,
+    'Project reference from Landscape Australia. View original: {source_url}.'
+  ),
+  (
     'landscape-first',
     'Landscape First',
     'https://www.landscapefirst.com',

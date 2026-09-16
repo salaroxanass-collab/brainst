@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "brainstorming:discover": "tsx scripts/discover-brainstorming-platforms.ts",
     "brainstorming:seed": "tsx scripts/seed-brainstorming.ts",
     "sanity": "sanity dev",
     "sanity:deploy": "sanity deploy"

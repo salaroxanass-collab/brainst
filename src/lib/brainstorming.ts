@@ -1,12 +1,22 @@
 import type { LocalizedString } from "./types";
 
-export type BrainstormSourceId = "landezine" | "landscape-first";
+export type BrainstormSourceId =
+  | "landezine"
+  | "landscape-performance-series"
+  | "lila"
+  | "world-landscape-architecture"
+  | "archdaily"
+  | "asla"
+  | "landscape-architecture-magazine"
+  | "landscape-australia"
+  | "landscape-first";
 
 export interface BrainstormSource {
   id: BrainstormSourceId;
   name: string;
   homepage: string;
   status: "approved" | "pending";
+  focus: string;
 }
 
 export interface BrainstormReference {
@@ -43,12 +53,63 @@ export const brainstormSources: BrainstormSource[] = [
     name: "Landezine",
     homepage: "https://landezine.com",
     status: "approved",
+    focus: "Curated landscape architecture projects, awards, essays, photographs, drawings and typology-led precedent research.",
+  },
+  {
+    id: "landscape-performance-series",
+    name: "Landscape Performance Series",
+    homepage: "https://www.landscapeperformance.org",
+    status: "pending",
+    focus: "Peer-reviewed performance case studies with quantified environmental, social and economic benefits.",
+  },
+  {
+    id: "lila",
+    name: "LILA",
+    homepage: "https://landezine-award.com",
+    status: "pending",
+    focus: "Landezine International Landscape Award winners, distinctions and submitted contemporary projects.",
+  },
+  {
+    id: "world-landscape-architecture",
+    name: "World Landscape Architecture",
+    homepage: "https://worldlandscapearchitect.com/general/project/",
+    status: "pending",
+    focus: "International project coverage across parks, plazas, gardens, schools, waterfronts, wetlands and emerging practices.",
+  },
+  {
+    id: "archdaily",
+    name: "ArchDaily",
+    homepage: "https://www.archdaily.com/search/projects/categories/landscape-architecture",
+    status: "pending",
+    focus: "Large architecture and landscape project database for architecture-public realm-landscape relationships.",
+  },
+  {
+    id: "asla",
+    name: "ASLA Professional Awards",
+    homepage: "https://www.asla.org/awards",
+    status: "pending",
+    focus: "Awarded landscape architecture projects with strong ecological, resilience, planning and research documentation.",
+  },
+  {
+    id: "landscape-architecture-magazine",
+    name: "Landscape Architecture Magazine",
+    homepage: "https://landscapearchitecturemagazine.org",
+    status: "pending",
+    focus: "Critical professional context, essays and project discussion for understanding why a precedent matters.",
+  },
+  {
+    id: "landscape-australia",
+    name: "Landscape Australia",
+    homepage: "https://landscapeaustralia.com",
+    status: "pending",
+    focus: "Australian public landscape, climate-responsive design, professional critique and regional precedent research.",
   },
   {
     id: "landscape-first",
     name: "Landscape First",
     homepage: "https://www.landscapefirst.com",
-    status: "approved",
+    status: "pending",
+    focus: "Supplementary landscape architecture references and professional project coverage.",
   },
 ];
 
