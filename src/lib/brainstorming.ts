@@ -1226,10 +1226,10 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
     strictRanked.length > 0
       ? strictRanked
       : [...ranked].sort((a, b) => {
+          if (wantsItaly && a.matchesItaly !== b.matchesItaly) return a.matchesItaly ? -1 : 1;
           if (wantsSchoolyard && a.matchesSchoolyard !== b.matchesSchoolyard) {
             return a.matchesSchoolyard ? -1 : 1;
           }
-          if (wantsItaly && a.matchesItaly !== b.matchesItaly) return a.matchesItaly ? -1 : 1;
           return b.score - a.score || a.index - b.index;
         });
 

@@ -98,6 +98,8 @@ const copy = {
     activeFilters: "Active filters",
     noExact:
       "No exact verified project matched every part of the brief, so the engine is showing the closest real references first.",
+    timePeriodUnavailable:
+      "The live reference index does not yet have verified dates for this time period, so year-specific requests are shown as related research only.",
     reasonLabels: {
       location: "Location",
       typology: "Typology",
@@ -156,6 +158,8 @@ const copy = {
     activeFilters: "Filtri attivi",
     noExact:
       "Nessun progetto verificato corrisponde a tutte le parti del brief, quindi il motore mostra prima i riferimenti reali piu vicini.",
+    timePeriodUnavailable:
+      "L'indice live non ha ancora date verificate per questo periodo, quindi le richieste per anno vengono mostrate solo come ricerca correlata.",
     reasonLabels: {
       location: "Luogo",
       typology: "Tipologia",
@@ -214,6 +218,8 @@ const copy = {
     activeFilters: "Filtre active",
     noExact:
       "Niciun proiect verificat nu corespunde tuturor partilor din brief, asa ca motorul arata mai intai cele mai apropiate referinte reale.",
+    timePeriodUnavailable:
+      "Indexul live nu are inca date verificate pentru aceasta perioada, asa ca cererile pe ani sunt afisate doar ca cercetare apropiata.",
     reasonLabels: {
       location: "Locatie",
       typology: "Tipologie",
@@ -310,9 +316,14 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
     () => buildResultInsights(results, query, activeFilters),
     [activeFilters, query, results]
   );
+  const requestedYears = useMemo(
+    () => extractRequestedYears(`${query} ${activeFilters.join(" ")}`),
+    [activeFilters, query]
+  );
   const strongMatchCount = resultInsights.filter((item) => item.strength === "strong").length;
   const relatedMatchCount = Math.max(results.length - strongMatchCount, 0);
   const showClosestNote = results.length > 0 && strongMatchCount === 0 && query.trim().length > 0;
+  const showTimePeriodNote = requestedYears.length > 0;
 
   function toggleFilter(value: string) {
     setActiveFilters((current) =>
@@ -331,9 +342,8 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
   }
 
   function generateBrainstorm() {
-    const curated = results.length > 0 ? results : brainstormReferences;
     setIsGenerating(true);
-    setSelectedIds(curated.slice(0, 3).map((reference) => reference.id));
+    setSelectedIds([]);
     setBrainstormed(true);
     window.setTimeout(() => {
       resultsSectionRef.current?.scrollIntoView({
@@ -496,6 +506,11 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
               {showClosestNote && (
                 <p className="mt-3 max-w-3xl font-serif text-base text-charcoal-muted">
                   {t.noExact}
+                </p>
+              )}
+              {showTimePeriodNote && (
+                <p className="mt-3 max-w-3xl font-serif text-base text-charcoal-muted">
+                  {t.timePeriodUnavailable}
                 </p>
               )}
             </div>
@@ -958,6 +973,10 @@ function tokenizeBrief(value: string) {
     .split(/\s+/)
     .map((term) => term.trim())
     .filter((term) => term.length > 2);
+}
+
+function extractRequestedYears(value: string) {
+  return Array.from(value.matchAll(/\b(18|19|20)\d{2}\b/g), (match) => match[0]);
 }
 
 function ArchitectureList({ title, items }: { title: string; items: string[] }) {
