@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "brainstorming:discover": "tsx scripts/discover-brainstorming-platforms.ts",
+    "brainstorming:import-candidates": "tsx scripts/import-brainstorming-case-studies.ts",
+    "brainstorming:queue-imports": "tsx scripts/queue-brainstorming-import-candidates.ts",
     "brainstorming:seed": "tsx scripts/seed-brainstorming.ts",
     "sanity": "sanity dev",
     "sanity:deploy": "sanity deploy"
