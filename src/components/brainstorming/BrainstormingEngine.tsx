@@ -89,6 +89,24 @@ const copy = {
     dataModeDatabase: "Database results",
     viewReference: "View reference",
     sourcePage: "Source page",
+    strongMatch: "Strong match",
+    relatedMatch: "Closest verified",
+    whyThis: "Why this reference",
+    verifiedSource: "Verified source",
+    exactMatches: "strong matches",
+    relatedMatches: "related references",
+    activeFilters: "Active filters",
+    noExact:
+      "No exact verified project matched every part of the brief, so the engine is showing the closest real references first.",
+    reasonLabels: {
+      location: "Location",
+      typology: "Typology",
+      materials: "Materials",
+      nbs: "Nature-based solution",
+      planting: "Planting",
+      brief: "Brief language",
+      verified: "Verified precedent",
+    },
   },
   it: {
     eyebrow: "Laboratorio prodotto BrainSt",
@@ -129,6 +147,24 @@ const copy = {
     dataModeDatabase: "Risultati database",
     viewReference: "Apri riferimento",
     sourcePage: "Pagina fonte",
+    strongMatch: "Match forte",
+    relatedMatch: "Verificato vicino",
+    whyThis: "Perche questo riferimento",
+    verifiedSource: "Fonte verificata",
+    exactMatches: "match forti",
+    relatedMatches: "riferimenti correlati",
+    activeFilters: "Filtri attivi",
+    noExact:
+      "Nessun progetto verificato corrisponde a tutte le parti del brief, quindi il motore mostra prima i riferimenti reali piu vicini.",
+    reasonLabels: {
+      location: "Luogo",
+      typology: "Tipologia",
+      materials: "Materiali",
+      nbs: "Soluzione nature-based",
+      planting: "Vegetazione",
+      brief: "Linguaggio del brief",
+      verified: "Precedente verificato",
+    },
   },
   ro: {
     eyebrow: "Laborator de produs BrainSt",
@@ -169,6 +205,24 @@ const copy = {
     dataModeDatabase: "Rezultate din baza de date",
     viewReference: "Vezi referinta",
     sourcePage: "Pagina sursa",
+    strongMatch: "Potrivire puternica",
+    relatedMatch: "Verificat apropiat",
+    whyThis: "De ce acest exemplu",
+    verifiedSource: "Sursa verificata",
+    exactMatches: "potriviri puternice",
+    relatedMatches: "referinte apropiate",
+    activeFilters: "Filtre active",
+    noExact:
+      "Niciun proiect verificat nu corespunde tuturor partilor din brief, asa ca motorul arata mai intai cele mai apropiate referinte reale.",
+    reasonLabels: {
+      location: "Locatie",
+      typology: "Tipologie",
+      materials: "Materiale",
+      nbs: "Solutie bazata pe natura",
+      planting: "Plantare",
+      brief: "Limbaj din brief",
+      verified: "Precedent verificat",
+    },
   },
 };
 
@@ -250,6 +304,13 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
   );
 
   const inferred = inferBrainstorm(query, activeFilters, results, locale);
+  const resultInsights = useMemo(
+    () => buildResultInsights(results, query, activeFilters),
+    [activeFilters, query, results]
+  );
+  const strongMatchCount = resultInsights.filter((item) => item.strength === "strong").length;
+  const relatedMatchCount = Math.max(results.length - strongMatchCount, 0);
+  const showClosestNote = results.length > 0 && strongMatchCount === 0 && query.trim().length > 0;
 
   function toggleFilter(value: string) {
     setActiveFilters((current) =>
@@ -397,6 +458,36 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
             labels={t}
           />
 
+          {(activeFilters.length > 0 || query.trim().length > 0) && (
+            <div className="mt-6 border border-charcoal/10 bg-offwhite p-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="font-display text-[9px] tracking-[0.22em] text-clay uppercase">
+                  {t.activeFilters}
+                </p>
+                {query.trim().length > 0 && (
+                  <span className="border border-forest/15 bg-beige px-3 py-2 font-display text-[9px] tracking-[0.14em] text-forest uppercase">
+                    {query}
+                  </span>
+                )}
+                {activeFilters.map((filter) => (
+                  <button
+                    key={filter}
+                    type="button"
+                    onClick={() => toggleFilter(filter)}
+                    className="border border-charcoal/15 px-3 py-2 font-display text-[9px] tracking-[0.14em] text-charcoal uppercase transition hover:border-clay hover:text-clay"
+                  >
+                    {filter} ×
+                  </button>
+                ))}
+              </div>
+              {showClosestNote && (
+                <p className="mt-3 max-w-3xl font-serif text-base text-charcoal-muted">
+                  {t.noExact}
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="mt-14 flex items-end justify-between gap-6 border-t border-charcoal/10 pt-8">
             <div>
               <p className="font-display text-[10px] tracking-[0.3em] text-clay uppercase">
@@ -405,6 +496,9 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
               <h2 className="mt-2 font-display text-4xl tracking-[0.08em] text-forest uppercase md:text-5xl">
                 {results.length} references
               </h2>
+              <p className="mt-3 font-display text-[10px] tracking-[0.18em] text-charcoal-muted uppercase">
+                {strongMatchCount} {t.exactMatches} · {relatedMatchCount} {t.relatedMatches}
+              </p>
             </div>
             <p className="max-w-sm text-right font-serif text-base text-charcoal-muted">
               {t.sourceCredit}
@@ -473,6 +567,12 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
                 labelSelected={t.selectedLabel}
                 labelRemove={t.remove}
                 labelViewReference={t.viewReference}
+                labelStrongMatch={t.strongMatch}
+                labelRelatedMatch={t.relatedMatch}
+                labelWhyThis={t.whyThis}
+                labelVerifiedSource={t.verifiedSource}
+                reasonLabels={t.reasonLabels}
+                insight={resultInsights[index] ?? fallbackInsight}
                 onToggle={() => toggleReference(reference)}
                 index={index}
               />
@@ -595,6 +695,12 @@ function ReferenceCard({
   labelSelected,
   labelRemove,
   labelViewReference,
+  labelStrongMatch,
+  labelRelatedMatch,
+  labelWhyThis,
+  labelVerifiedSource,
+  reasonLabels,
+  insight,
   onToggle,
   index,
 }: {
@@ -605,6 +711,12 @@ function ReferenceCard({
   labelSelected: string;
   labelRemove: string;
   labelViewReference: string;
+  labelStrongMatch: string;
+  labelRelatedMatch: string;
+  labelWhyThis: string;
+  labelVerifiedSource: string;
+  reasonLabels: Record<ReasonKey, string>;
+  insight: ResultInsight;
   onToggle: () => void;
   index: number;
 }) {
@@ -648,6 +760,20 @@ function ReferenceCard({
       </div>
       <div className="mt-5 flex items-start justify-between gap-5">
         <div>
+          <div className="mb-3 flex flex-wrap gap-2">
+            <span
+              className={`border px-3 py-1 font-display text-[8px] tracking-[0.16em] uppercase ${
+                insight.strength === "strong"
+                  ? "border-forest bg-forest text-offwhite"
+                  : "border-clay/35 bg-clay/10 text-clay"
+              }`}
+            >
+              {insight.strength === "strong" ? labelStrongMatch : labelRelatedMatch}
+            </span>
+            <span className="border border-charcoal/15 px-3 py-1 font-display text-[8px] tracking-[0.16em] text-charcoal-muted uppercase">
+              {labelVerifiedSource}
+            </span>
+          </div>
           <h3 className="font-display text-2xl tracking-[0.08em] text-forest uppercase">
             {localized(reference.title, locale)}
           </h3>
@@ -675,6 +801,21 @@ function ReferenceCard({
       >
         {labelViewReference} →
       </a>
+      <div className="mt-4 border-l border-clay/40 pl-4">
+        <p className="font-display text-[8px] tracking-[0.18em] text-clay uppercase">
+          {labelWhyThis}
+        </p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {insight.reasons.map((reason) => (
+            <span
+              key={reason}
+              className="bg-beige px-3 py-1 font-display text-[8px] tracking-[0.12em] text-charcoal uppercase"
+            >
+              {reasonLabels[reason]}
+            </span>
+          ))}
+        </div>
+      </div>
       <div className="mt-4 flex flex-wrap gap-2">
         {reference.tags.slice(0, 6).map((tag) => (
           <span
@@ -699,6 +840,108 @@ function ReferenceCard({
       )}
     </motion.article>
   );
+}
+
+type ReasonKey =
+  | "location"
+  | "typology"
+  | "materials"
+  | "nbs"
+  | "planting"
+  | "brief"
+  | "verified";
+
+type ResultInsight = {
+  strength: "strong" | "related";
+  reasons: ReasonKey[];
+};
+
+const fallbackInsight: ResultInsight = {
+  strength: "related",
+  reasons: ["verified"],
+};
+
+function buildResultInsights(
+  references: BrainstormReference[],
+  query: string,
+  filters: string[]
+): ResultInsight[] {
+  const terms = tokenizeBrief(`${query} ${filters.join(" ")}`);
+  const wantsItaly = terms.some((term) => ["italian", "italy", "italia"].includes(term));
+  const wantsSchoolyard = terms.some((term) =>
+    ["schoolyard", "school", "playground", "scolastico", "scolastica"].includes(term)
+  );
+
+  return references.map((reference) => {
+    const haystack = [
+      reference.title.en,
+      reference.title.it,
+      reference.title.ro,
+      reference.designer,
+      reference.location.en,
+      reference.location.it,
+      reference.location.ro,
+      reference.tags.join(" "),
+      reference.typology,
+      reference.materials.join(" "),
+      reference.plantingStyle,
+      reference.climate,
+      reference.atmosphere,
+      reference.nbs.join(" "),
+      reference.healthThemes.join(" "),
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    const reasons = new Set<ReasonKey>();
+    const locationText = `${reference.location.en} ${reference.location.it} ${reference.location.ro}`.toLowerCase();
+    const tagText = reference.tags.join(" ").toLowerCase();
+    const typology = reference.typology.toLowerCase();
+
+    if (wantsItaly && /italy|italia|rome|roma|milan|milano|bologna|reggio|velletri/.test(locationText + " " + tagText)) {
+      reasons.add("location");
+    }
+    if (wantsSchoolyard && /school|schoolyard|playground/.test(typology + " " + tagText + " " + haystack)) {
+      reasons.add("typology");
+    }
+    if (terms.some((term) => reference.materials.join(" ").toLowerCase().includes(term))) {
+      reasons.add("materials");
+    }
+    if (terms.some((term) => reference.nbs.join(" ").toLowerCase().includes(term))) {
+      reasons.add("nbs");
+    }
+    if (terms.some((term) => reference.plantingStyle.toLowerCase().includes(term))) {
+      reasons.add("planting");
+    }
+    if (terms.some((term) => haystack.includes(term)) && reasons.size === 0) {
+      reasons.add("brief");
+    }
+
+    const strength =
+      (!wantsItaly || reasons.has("location")) &&
+      (!wantsSchoolyard || reasons.has("typology")) &&
+      reasons.size > 0
+        ? "strong"
+        : "related";
+
+    if (reasons.size === 0) {
+      reasons.add("verified");
+    }
+
+    return {
+      strength,
+      reasons: Array.from(reasons).slice(0, 4),
+    };
+  });
+}
+
+function tokenizeBrief(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .split(/\s+/)
+    .map((term) => term.trim())
+    .filter((term) => term.length > 2);
 }
 
 function ArchitectureList({ title, items }: { title: string; items: string[] }) {
