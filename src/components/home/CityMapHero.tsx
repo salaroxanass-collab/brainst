@@ -15,21 +15,15 @@ type Destination = {
 };
 
 const destinations: Destination[] = [
-  { key: "studio", path: "studio", position: "left-[7%] top-[19%]", align: "text-left", road: "M500 330 L365 252 L145 178", district: "The workshop" },
+  { key: "studio", path: "studio", position: "left-1/2 top-[8%] -translate-x-1/2", align: "text-center", road: "M565 0 C500 88 640 138 555 220 C505 270 590 280 565 315", district: "Ideas and approach" },
   { key: "projects", path: "projects", position: "left-[5%] top-[48%]", align: "text-left", road: "M470 390 L305 390 L105 430", district: "Built places" },
   { key: "research", path: "research", position: "left-[11%] bottom-[13%]", align: "text-left", road: "M500 450 L370 520 L175 625", district: "The field station" },
   { key: "publications", path: "publications", position: "left-[36%] bottom-[5%]", align: "text-center", road: "M565 465 L540 585 L475 705", district: "The archive" },
   { key: "services", path: "services", position: "right-[7%] top-[19%]", align: "text-right", road: "M635 330 L765 252 L980 175", district: "What we do" },
   { key: "contact", path: "contact", position: "right-[5%] top-[48%]", align: "text-right", road: "M660 390 L825 390 L1025 430", district: "Meet here" },
   { key: "projectQuestionnaire", path: "project-questionnaire", position: "right-[8%] bottom-[12%]", align: "text-right", road: "M635 450 L770 525 L955 635", district: "Begin a brief" },
-  { key: "brainstormingEngine", path: "brainstorming-engine", position: "left-1/2 top-[12%] -translate-x-1/2", align: "text-center", road: "M565 315 L565 212 L565 92", district: "Explore precedents" },
+  { key: "brainstormingEngine", path: "brainstorming-engine", position: "left-[7%] top-[19%]", align: "text-left", road: "M500 330 L365 252 L145 178", district: "Explore precedents" },
 ];
-
-const blocks = [
-  [34, 95, 155, 88, "#d8d0bf"], [215, 75, 170, 115, "#b9c6b8"], [760, 72, 155, 118, "#d5b89f"], [945, 95, 145, 92, "#c9cfbd"],
-  [42, 260, 190, 100, "#bdc8b6"], [880, 250, 205, 112, "#d7cfbd"], [55, 500, 178, 128, "#d2b49a"], [245, 550, 155, 115, "#c4cbb7"],
-  [735, 555, 155, 110, "#b8c7bf"], [925, 500, 165, 132, "#d6c6aa"], [260, 235, 125, 98, "#d5c8b5"], [750, 235, 120, 98, "#b8c7b5"],
-] as const;
 
 export function CityMapHero() {
   const locale = useLocale();
@@ -37,6 +31,7 @@ export function CityMapHero() {
   const router = useRouter();
   const [hovered, setHovered] = useState<string | null>(null);
   const [departing, setDeparting] = useState<Destination | null>(null);
+  const studioActive = hovered === "studio" || departing?.key === "studio";
 
   const navigate = (destination: Destination) => {
     if (departing) return;
@@ -54,17 +49,24 @@ export function CityMapHero() {
         >
           <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1130 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <rect width="1130" height="760" fill="#e7e1d5" />
-            {blocks.map(([x, y, width, height, fill], index) => (
-              <g key={index}>
-                <rect x={x} y={y} width={width} height={height} fill={fill} stroke="#46594d" strokeOpacity="0.2" />
-                <path d={`M${x + 12} ${y + 20} H${x + width - 12} M${x + 12} ${y + 38} H${x + width - 32}`} stroke="#faf8f5" strokeOpacity="0.7" strokeWidth="3" />
-              </g>
-            ))}
+            <path d="M0 85 C120 35 270 70 340 155 C390 215 330 275 210 284 C105 292 42 245 0 205Z" fill="#b9c7b5" opacity="0.72" />
+            <path d="M1130 78 C1008 36 865 70 800 145 C748 205 790 278 920 288 C1028 296 1095 246 1130 198Z" fill="#d4b99f" opacity="0.68" />
+            <path d="M0 500 C118 455 245 482 302 570 C338 626 300 704 190 760 L0 760Z" fill="#d6c6aa" opacity="0.72" />
+            <path d="M1130 494 C1012 456 892 488 832 570 C795 622 830 706 942 760 L1130 760Z" fill="#afc2b9" opacity="0.76" />
+            <path d="M250 38 C300 8 387 13 418 58 C447 102 411 143 350 145 C286 147 228 92 250 38Z" fill="#cbd0bc" opacity="0.62" />
+            <path d="M720 30 C780 4 862 19 883 68 C900 110 855 146 793 140 C738 135 684 76 720 30Z" fill="#c7cfbc" opacity="0.62" />
+            <g fill="#6f9277" opacity="0.48">
+              <circle cx="85" cy="142" r="17" /><circle cx="122" cy="116" r="11" /><circle cx="178" cy="196" r="14" />
+              <circle cx="1040" cy="126" r="18" /><circle cx="995" cy="183" r="12" /><circle cx="930" cy="116" r="14" />
+              <circle cx="125" cy="610" r="19" /><circle cx="212" cy="664" r="14" /><circle cx="1010" cy="625" r="18" />
+            </g>
 
-            <path d="M0 40 C220 80 280 25 450 65 S805 100 1130 38" fill="none" stroke="#86a398" strokeWidth="22" strokeOpacity="0.8" />
-            <path d="M0 40 C220 80 280 25 450 65 S805 100 1130 38" fill="none" stroke="#f7f3eb" strokeWidth="3" strokeDasharray="10 12" />
+            <motion.path d={destinations[0].road} fill="none" stroke="#f8f5ed" strokeWidth={studioActive ? 70 : 58} strokeLinecap="round" animate={{ strokeWidth: studioActive ? 70 : 58 }} />
+            <motion.path d={destinations[0].road} fill="none" stroke={studioActive ? "#4e929f" : "#79a8ad"} strokeWidth={studioActive ? 48 : 38} strokeLinecap="round" animate={{ stroke: studioActive ? "#4e929f" : "#79a8ad", strokeWidth: studioActive ? 48 : 38 }} />
+            <path d={destinations[0].road} fill="none" stroke="#dff2f0" strokeWidth="5" strokeLinecap="round" strokeDasharray="3 16" opacity="0.9" />
 
             {destinations.map(destination => {
+              if (destination.key === "studio") return null;
               const active = hovered === destination.key || departing?.key === destination.key;
               return (
                 <g key={destination.key}>
@@ -82,9 +84,8 @@ export function CityMapHero() {
           </svg>
 
           <div className="absolute left-1/2 top-1/2 z-20 flex h-36 w-36 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center text-center md:h-44 md:w-44">
-            <p className="font-display text-[9px] tracking-[0.24em] text-forest uppercase">Central piazza</p>
-            <h1 className="mt-2 font-display text-3xl font-semibold tracking-[0.13em] text-forest uppercase md:text-4xl">BrainSt</h1>
-            <p className="mt-2 max-w-28 font-serif text-sm leading-4 text-forest">Ideas meet landscape</p>
+            <h1 className="font-display text-4xl font-bold tracking-[0.13em] text-[#153c2d] uppercase drop-shadow-[0_1px_0_rgba(255,255,255,0.8)] md:text-5xl">BrainSt</h1>
+            <p className="mt-2 max-w-32 bg-[#f8f5ed]/75 px-2 py-1 font-serif text-base font-semibold leading-4 text-[#153c2d]">Ideas meet landscape</p>
           </div>
 
           {destinations.map(destination => (
@@ -96,13 +97,13 @@ export function CityMapHero() {
               onFocus={() => setHovered(destination.key)}
               onBlur={() => setHovered(null)}
               onClick={() => navigate(destination)}
-              className={`group absolute z-30 max-w-[170px] ${destination.position} ${destination.align}`}
+              className={`group absolute z-30 max-w-[190px] px-2 py-2 transition-transform duration-300 hover:scale-110 focus:scale-110 focus:outline-none ${destination.position} ${destination.align}`}
               aria-label={`${tNav(destination.key)}: ${destination.district}`}
             >
-              <span className={`block font-display text-[10px] tracking-[0.16em] uppercase transition md:text-xs ${destination.key === "brainstormingEngine" ? "font-semibold text-clay" : "text-forest group-hover:text-clay"}`}>
-                {tNav(destination.key)}
+              <span className={`block border-b-2 bg-[#f8f5ed]/90 px-2 py-1 font-display text-[10px] font-semibold tracking-[0.14em] uppercase shadow-[0_3px_0_rgba(27,61,47,0.12)] transition-all duration-300 md:text-sm ${destination.key === "brainstormingEngine" ? "border-clay text-clay" : destination.key === "studio" ? "border-[#4e929f] text-[#2f707c] group-hover:bg-[#4e929f] group-hover:text-white group-focus:bg-[#4e929f] group-focus:text-white" : "border-forest/40 text-forest group-hover:border-clay group-hover:bg-clay group-hover:text-white group-focus:border-clay group-focus:bg-clay group-focus:text-white"}`}>
+                {destination.key === "studio" ? "Studio philosophy" : tNav(destination.key)}
               </span>
-              <span className="mt-1 hidden font-serif text-xs text-charcoal-muted md:block">{destination.district}</span>
+              <span className="mt-1 hidden font-serif text-xs font-semibold text-charcoal md:block group-hover:text-clay group-focus:text-clay">{destination.district} <span className="opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-100">→</span></span>
             </button>
           ))}
         </motion.div>
