@@ -1,4 +1,5 @@
 import type { LocalizedString } from "./types";
+import { interpretLandscapeQuery } from "./brainstorming/expert";
 
 export type BrainstormSourceId =
   | "landezine"
@@ -40,6 +41,10 @@ export interface BrainstormReference {
   atmosphere: string;
   nbs: string[];
   healthThemes: string[];
+  yearCompleted?: number;
+  historicalPeriod?: string;
+  movement?: string;
+  historicalContext?: string;
 }
 
 export interface BrainstormArchitectureTable {
@@ -1161,6 +1166,10 @@ export const brainstormReferences: BrainstormReference[] = [
     atmosphere: "Sheltered, lush, exploratory",
     nbs: ["Urban greening", "Rainwater irrigation", "Microclimate"],
     healthThemes: ["Public access", "Walking", "Outdoor learning"],
+    yearCompleted: 2015,
+    historicalPeriod: "Contemporary",
+    movement: "Contemporary urban horticulture",
+    historicalContext: "A contemporary London roof garden drawing on the history of plant collection and the docklands' global botanical exchange.",
   },
   {
     id: "neo-bankside",
@@ -1195,6 +1204,10 @@ export const brainstormReferences: BrainstormReference[] = [
     atmosphere: "Layered, peaceful, naturalistic",
     nbs: ["Rainwater harvesting", "Biodiversity habitat", "Urban cooling"],
     healthThemes: ["Contact with nature", "Walking", "Restoration"],
+    yearCompleted: 2012,
+    historicalPeriod: "Contemporary",
+    movement: "Naturalistic urban garden",
+    historicalContext: "A contemporary London garden that combines woodland naturalism with dense urban residential development.",
   },
   {
     id: "holland-park-villas",
@@ -1229,6 +1242,10 @@ export const brainstormReferences: BrainstormReference[] = [
     atmosphere: "Mature, tranquil, sensory",
     nbs: ["Habitat planting", "Water attenuation", "Tree retention"],
     healthThemes: ["Sensory experience", "Restoration", "Walking"],
+    yearCompleted: 2017,
+    historicalPeriod: "Contemporary",
+    movement: "Naturalistic woodland garden",
+    historicalContext: "A contemporary English garden balancing formal enclosure with the naturalistic woodland character associated with Holland Park.",
   },
   {
     id: "vauxhall-pleasure-gardens",
@@ -1267,6 +1284,10 @@ export const brainstormReferences: BrainstormReference[] = [
     atmosphere: "Historic, social, open",
     nbs: ["Urban tree canopy", "Park regeneration", "Green connectivity"],
     healthThemes: ["Community life", "Walking", "Public events"],
+    yearCompleted: 2012,
+    historicalPeriod: "Contemporary regeneration of an eighteenth-century site",
+    movement: "Heritage landscape regeneration",
+    historicalContext: "A contemporary regeneration of the site of London's eighteenth-century Vauxhall Pleasure Gardens, retaining its cultural identity as a landscape of public entertainment.",
   },
 ];
 
@@ -1276,6 +1297,7 @@ export function sourceName(sourceId: BrainstormSourceId) {
 
 export function searchBrainstormReferences(query: string, filters: string[]) {
   const searchText = `${query} ${filters.join(" ")}`.toLowerCase();
+  const expertIntent = interpretLandscapeQuery(query, filters);
   const rawTerms = tokenize(searchText);
   if (rawTerms.length === 0) return brainstormReferences;
 
@@ -1326,6 +1348,9 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
         reference.atmosphere,
         reference.nbs.join(" "),
         reference.healthThemes.join(" "),
+        reference.historicalPeriod ?? "",
+        reference.movement ?? "",
+        reference.historicalContext ?? "",
         sourceName(reference.sourceId),
       ]
         .join(" ")
@@ -1353,6 +1378,35 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
             ? 52
             : 32
           : 0;
+      const matchesExpertCountry = expertIntent.countries.every((country) => {
+        if (country === "England / United Kingdom") return /england|united kingdom|london|\buk\b/.test(`${location} ${tags}`);
+        if (country === "Italy") return /italy|italia|rome|roma|milan|milano|bologna|reggio|velletri/.test(`${location} ${tags}`);
+        return `${location} ${tags}`.includes(country.toLowerCase());
+      });
+      const matchesExpertTypology = expertIntent.typologies.every((requested) => {
+        const classification = `${referenceClassification} ${reference.plantingStyle}`.toLowerCase();
+        const patterns: Record<string, RegExp> = {
+          Garden: /garden|giardino|gradina/,
+          Schoolyard: /school|schoolyard|playground/,
+          Park: /park/,
+          "Public plaza": /plaza|square|piazza|public space/,
+          Waterfront: /waterfront|riverfront|riverbank/,
+          Wetland: /wetland|marsh/,
+          Courtyard: /courtyard|cortile/,
+          "Roof garden": /roof garden|rooftop/,
+          "Healing landscape": /healing|therapeutic|hospital|healthcare/,
+        };
+        return patterns[requested]?.test(classification) ?? true;
+      });
+      const matchesExpertDate = !expertIntent.date || (
+        reference.yearCompleted !== undefined &&
+        (expertIntent.date.from === undefined || reference.yearCompleted >= expertIntent.date.from) &&
+        (expertIntent.date.to === undefined || reference.yearCompleted <= expertIntent.date.to)
+      );
+      const historicalText = `${reference.movement ?? ""} ${reference.historicalPeriod ?? ""} ${reference.historicalContext ?? ""} ${tags}`.toLowerCase();
+      const matchesExpertTradition = expertIntent.traditions.every((tradition) =>
+        historicalText.includes(tradition.toLowerCase())
+      );
       return {
         reference,
         score: score + exactPhraseBoost + semanticIntentBoost,
@@ -1383,9 +1437,14 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
           tags.includes("playground") ||
           haystack.includes("school garden") ||
           haystack.includes("cortile scolastico"),
+        matchesExpertConstraints:
+          matchesExpertCountry &&
+          matchesExpertTypology &&
+          matchesExpertDate &&
+          matchesExpertTradition,
       };
     })
-    .filter((item) => item.score > 0)
+    .filter((item) => item.score > 0 && item.matchesExpertConstraints)
     .sort((a, b) => b.score - a.score || a.index - b.index);
   const strictRanked = ranked.filter(
     (item) =>

@@ -13,6 +13,10 @@ import {
   sourceName,
   type BrainstormReference,
 } from "@/lib/brainstorming";
+import {
+  interpretLandscapeQuery,
+  summarizeLandscapeIntent,
+} from "@/lib/brainstorming/expert";
 
 const examplePrompts = [
   "Italian civic landscape with planting, heritage and warm paving",
@@ -96,6 +100,9 @@ const copy = {
     exactMatches: "strong matches",
     relatedMatches: "related references",
     activeFilters: "Active filters",
+    expertReading: "Landscape architect reading",
+    historicalLens: "Historical lens",
+    noVerifiedMatches: "No verified references satisfy all of the requested location, typology, period and historical criteria. Broaden the brief or remove one constraint to continue.",
     noExact:
       "No exact verified project matched every part of the brief, so the engine is showing the closest real references first.",
     timePeriodUnavailable:
@@ -156,6 +163,9 @@ const copy = {
     exactMatches: "match forti",
     relatedMatches: "riferimenti correlati",
     activeFilters: "Filtri attivi",
+    expertReading: "Lettura dell'architetto paesaggista",
+    historicalLens: "Lente storica",
+    noVerifiedMatches: "Nessun riferimento verificato soddisfa tutti i criteri richiesti di luogo, tipologia, periodo e storia. Amplia il brief o rimuovi un vincolo per continuare.",
     noExact:
       "Nessun progetto verificato corrisponde a tutte le parti del brief, quindi il motore mostra prima i riferimenti reali piu vicini.",
     timePeriodUnavailable:
@@ -216,6 +226,9 @@ const copy = {
     exactMatches: "potriviri puternice",
     relatedMatches: "referinte apropiate",
     activeFilters: "Filtre active",
+    expertReading: "Interpretarea arhitectului peisagist",
+    historicalLens: "Context istoric",
+    noVerifiedMatches: "Nicio referinta verificata nu respecta toate criteriile de locatie, tipologie, perioada si istorie. Extinde brief-ul sau elimina o constrangere.",
     noExact:
       "Niciun proiect verificat nu corespunde tuturor partilor din brief, asa ca motorul arata mai intai cele mai apropiate referinte reale.",
     timePeriodUnavailable:
@@ -269,6 +282,14 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
   );
 
   const inferred = inferBrainstorm(submittedQuery, submittedFilters, results, locale);
+  const expertIntent = useMemo(
+    () => interpretLandscapeQuery(submittedQuery, submittedFilters),
+    [submittedFilters, submittedQuery]
+  );
+  const expertReading = useMemo(
+    () => summarizeLandscapeIntent(expertIntent, locale),
+    [expertIntent, locale]
+  );
   const resultInsights = useMemo(
     () => buildResultInsights(results, submittedQuery, submittedFilters),
     [results, submittedFilters, submittedQuery]
@@ -280,7 +301,7 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
   const strongMatchCount = resultInsights.filter((item) => item.strength === "strong").length;
   const relatedMatchCount = Math.max(results.length - strongMatchCount, 0);
   const showClosestNote = results.length > 0 && strongMatchCount === 0 && submittedQuery.trim().length > 0;
-  const showTimePeriodNote = requestedYears.length > 0;
+  const showTimePeriodNote = requestedYears.length > 0 && results.length === 0;
 
   function toggleFilter(value: string) {
     setActiveFilters((current) =>
@@ -477,6 +498,33 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
             labels={t}
           />
 
+          {(expertReading.length > 0 || expertIntent.historicalLens.length > 0) && (
+            <section className="mt-6 border-l-4 border-clay bg-forest p-5 text-offwhite">
+              <p className="font-display text-[10px] tracking-[0.26em] text-sand uppercase">
+                {t.expertReading}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {expertReading.map((item) => (
+                  <span key={item} className="border border-offwhite/20 px-3 py-2 font-display text-[9px] tracking-[0.14em] uppercase">
+                    {item}
+                  </span>
+                ))}
+              </div>
+              {expertIntent.historicalLens.length > 0 && (
+                <div className="mt-5 border-t border-offwhite/15 pt-4">
+                  <p className="font-display text-[9px] tracking-[0.22em] text-clay uppercase">
+                    {t.historicalLens}
+                  </p>
+                  {expertIntent.historicalLens.map((item) => (
+                    <p key={item} className="mt-2 max-w-4xl font-serif text-lg leading-relaxed text-sand">
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
+
           {(submittedFilters.length > 0 || submittedQuery.trim().length > 0) && (
             <div className="mt-6 border border-charcoal/10 bg-offwhite p-4">
               <div className="flex flex-wrap items-center gap-3">
@@ -603,6 +651,13 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
               />
             ))}
           </div>
+          {results.length === 0 && (
+            <div className="mt-8 border border-clay/35 bg-beige p-6">
+              <p className="max-w-3xl font-serif text-xl text-charcoal">
+                {t.noVerifiedMatches}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -970,7 +1025,7 @@ function tokenizeBrief(value: string) {
 }
 
 function extractRequestedYears(value: string) {
-  return Array.from(value.matchAll(/\b(18|19|20)\d{2}\b/g), (match) => match[0]);
+  return Array.from(value.matchAll(/\b(?:1[0-9]|20)\d{2}\b/g), (match) => match[0]);
 }
 
 function ArchitectureList({ title, items }: { title: string; items: string[] }) {
@@ -996,7 +1051,7 @@ function inferBrainstorm(
   results: BrainstormReference[],
   locale: Locale
 ) {
-  const selected = results[0] ?? brainstormReferences[0];
+  const selected = results[0];
   const words = `${query} ${filters.join(" ")}`.toLowerCase();
   const intent = words.includes("school")
     ? "Child-friendly climate resilience"
@@ -1008,9 +1063,9 @@ function inferBrainstorm(
 
   return {
     intent,
-    atmosphere: selected.atmosphere,
-    materials: selected.materials.join(", "),
-    planting: selected.plantingStyle,
+    atmosphere: selected?.atmosphere ?? "No verified match",
+    materials: selected?.materials.join(", ") ?? "Awaiting a verified precedent",
+    planting: selected?.plantingStyle ?? "Awaiting a verified precedent",
     precedents: results
       .slice(0, 3)
       .map((reference) => localized(reference.title, locale))
