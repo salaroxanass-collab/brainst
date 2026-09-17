@@ -1131,10 +1131,12 @@ export function sourceName(sourceId: BrainstormSourceId) {
 }
 
 export function searchBrainstormReferences(query: string, filters: string[]) {
-  const rawTerms = tokenize(`${query} ${filters.join(" ")}`);
+  const searchText = `${query} ${filters.join(" ")}`.toLowerCase();
+  const rawTerms = tokenize(searchText);
   if (rawTerms.length === 0) return brainstormReferences;
 
   const terms = expandSearchTerms(rawTerms);
+  const wantsEnglishGarden = /\b(english|landscape)\s+(landscape\s+)?garden\b/.test(searchText);
   const wantsItaly = rawTerms.some((term) => ["italian", "italy", "italia"].includes(term));
   const wantsSchoolyard = rawTerms.some((term) =>
     ["schoolyard", "school", "playground", "scolastico", "scolastica"].includes(term)
@@ -1154,6 +1156,7 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
       ].join(" ").toLowerCase();
       const typology = reference.typology.toLowerCase();
       const tags = reference.tags.join(" ").toLowerCase();
+      const referenceClassification = `${typology} ${tags}`;
       const haystack = [
         reference.title.en,
         reference.title.it,
@@ -1191,11 +1194,22 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
         return total + 3;
       }, 0);
 
+      const matchesEnglishGarden =
+        /(heritage|cultural landscape|estate|historic garden)/.test(referenceClassification) ||
+        typology === "park" ||
+        typology === "park and plaza";
       const exactPhraseBoost = rawTerms.length > 1 && haystack.includes(rawTerms.join(" ")) ? 12 : 0;
+      const semanticIntentBoost =
+        wantsEnglishGarden && matchesEnglishGarden
+          ? /(heritage|cultural landscape|estate|historic garden)/.test(referenceClassification)
+            ? 52
+            : 32
+          : 0;
       return {
         reference,
-        score: score + exactPhraseBoost,
+        score: score + exactPhraseBoost + semanticIntentBoost,
         index,
+        matchesEnglishGarden,
         matchesItaly:
           location.includes("italy") ||
           location.includes("italia") ||
@@ -1218,6 +1232,7 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
     .sort((a, b) => b.score - a.score || a.index - b.index);
   const strictRanked = ranked.filter(
     (item) =>
+      (!wantsEnglishGarden || item.matchesEnglishGarden) &&
       (!wantsItaly || item.matchesItaly) &&
       (!wantsSchoolyard || item.matchesSchoolyard)
   );
@@ -1227,13 +1242,16 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
       ? strictRanked
       : [...ranked].sort((a, b) => {
           if (wantsItaly && a.matchesItaly !== b.matchesItaly) return a.matchesItaly ? -1 : 1;
+          if (wantsEnglishGarden && a.matchesEnglishGarden !== b.matchesEnglishGarden) {
+            return a.matchesEnglishGarden ? -1 : 1;
+          }
           if (wantsSchoolyard && a.matchesSchoolyard !== b.matchesSchoolyard) {
             return a.matchesSchoolyard ? -1 : 1;
           }
           return b.score - a.score || a.index - b.index;
         });
 
-  return bestRanked.length > 0 ? bestRanked.map((item) => item.reference) : brainstormReferences;
+  return bestRanked.map((item) => item.reference);
 }
 
 function tokenize(value: string) {
