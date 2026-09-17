@@ -65,7 +65,7 @@ const destinations: Destination[] = [
     route: "M672 305 C712 286 754 259 805 235 C895 193 1003 149 1210 106",
     position: "right-[7%] top-[20%]",
     align: "text-right",
-    subtitle: "Enter the neighbourhood",
+    subtitle: "Enter the forest.",
     kind: "district",
   },
 ];
@@ -263,17 +263,33 @@ export function CityMapHero() {
                       className="absolute left-full top-0 font-display text-4xl font-bold tracking-[0.08em] text-[#302231] uppercase md:text-5xl"
                       initial={{ x: 24, opacity: 0, clipPath: "inset(0 0 0 100%)" }}
                       animate={{ x: 0, opacity: 1, clipPath: "inset(0 0 0 0%)" }}
-                      exit={{ x: 18, opacity: 0, clipPath: "inset(0 0 0 100%)" }}
-                      transition={{ duration: 0.3, ease: [0.65, 0, 0.35, 1] }}
+                      transition={{ duration: 0.22, ease: [0.65, 0, 0.35, 1] }}
+                      exit={{ x: 18, opacity: 0, clipPath: "inset(0 0 0 100%)", transition: { duration: 0.2, delay: 0.48, ease: [0.65, 0, 0.35, 1] } }}
                     >
                       orming
                     </motion.span>
                   )}
                 </AnimatePresence>
               </button>
-              <p className="mt-2 whitespace-nowrap font-serif text-sm font-semibold text-[#302231]">
-                <motion.span animate={wordmarkHovered ? { color: "#78852f", fontWeight: 700 } : { color: "#302231", fontWeight: 600 }} transition={{ duration: 0.25 }}>Ideas</motion.span>{" "}
-                that meet landscape
+              <p className="relative z-30 mt-2 flex items-baseline justify-center gap-[0.28em] whitespace-nowrap font-serif text-sm font-semibold text-[#302231]">
+                {["Ideas", "that", "meet", "landscape"].map((word, index) => {
+                  const enterDelays = [0.12, 0.26, 0.4, 0.54];
+                  const leaveDelays = [0.36, 0.24, 0.12, 0];
+                  return (
+                    <span key={word} className="inline-block">
+                      <motion.span
+                        className="inline-block origin-bottom"
+                        initial={false}
+                        animate={wordmarkHovered
+                          ? { scale: [1, 1.82, 1.12], fontWeight: [600, 800, 700], color: ["#302231", "#302231", "#302231"] }
+                          : { scale: [1.12, 1.42, 1], fontWeight: [700, 700, 600], color: "#302231" }}
+                        transition={{ duration: wordmarkHovered ? 0.25 : 0.22, delay: wordmarkHovered ? enterDelays[index] : leaveDelays[index], ease: [0.45, 0, 0.25, 1], times: [0, 0.48, 1] }}
+                      >
+                        {word}
+                      </motion.span>
+                    </span>
+                  );
+                })}
               </p>
             </div>
           </div>
