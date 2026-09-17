@@ -242,7 +242,7 @@ export function CityMapHero() {
           </svg>
 
           <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-36 w-[min(92vw,520px)] -translate-x-1/2 -translate-y-1/2 md:h-44">
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[58%] text-center">
+            <div className="absolute left-1/2 top-1/2 w-[min(92vw,520px)] -translate-x-1/2 -translate-y-[58%] text-center">
               <button
                 type="button"
                 className="pointer-events-auto relative inline-block cursor-default whitespace-nowrap focus:outline-none"
@@ -259,34 +259,46 @@ export function CityMapHero() {
                       className="absolute left-full top-0 font-display text-4xl font-bold tracking-[0.08em] text-[#302231] uppercase md:text-5xl"
                       initial={{ x: 24, opacity: 0, clipPath: "inset(0 0 0 100%)" }}
                       animate={{ x: 0, opacity: 1, clipPath: "inset(0 0 0 0%)" }}
-                      transition={{ duration: 0.22, ease: [0.65, 0, 0.35, 1] }}
-                      exit={{ x: 18, opacity: 0, clipPath: "inset(0 0 0 100%)", transition: { duration: 0.2, delay: 0.48, ease: [0.65, 0, 0.35, 1] } }}
+                      transition={{ duration: 0.25, ease: [0.65, 0, 0.35, 1] }}
+                      exit={{ x: 18, opacity: 0, clipPath: "inset(0 0 0 100%)", transition: { duration: 0.22, delay: 0.56, ease: [0.65, 0, 0.35, 1] } }}
                     >
                       orming
                     </motion.span>
                   )}
                 </AnimatePresence>
               </button>
-              <p className="relative z-30 mt-2 flex items-baseline justify-center gap-[0.28em] whitespace-nowrap font-serif text-sm font-semibold text-[#302231]">
-                {["Ideas", "that", "meet", "landscape"].map((word, index) => {
-                  const enterDelays = [0.12, 0.26, 0.4, 0.54];
-                  const leaveDelays = [0.36, 0.24, 0.12, 0];
-                  return (
-                    <span key={word} className="inline-block">
-                      <motion.span
-                        className="inline-block origin-bottom"
-                        initial={false}
-                        animate={wordmarkHovered
-                          ? { scale: [1, 1.82, 1.12], fontWeight: [600, 800, 700], color: ["#302231", "#302231", "#302231"] }
-                          : { scale: [1.12, 1.42, 1], fontWeight: [700, 700, 600], color: "#302231" }}
-                        transition={{ duration: wordmarkHovered ? 0.25 : 0.22, delay: wordmarkHovered ? enterDelays[index] : leaveDelays[index], ease: [0.45, 0, 0.25, 1], times: [0, 0.48, 1] }}
-                      >
-                        {word}
-                      </motion.span>
-                    </span>
-                  );
-                })}
-              </p>
+              <div className="relative z-30 mt-2 h-8 w-full">
+                <motion.p
+                  className="absolute inset-x-0 top-0 whitespace-nowrap font-serif text-sm font-semibold text-[#302231]"
+                  initial={false}
+                  animate={{ opacity: wordmarkHovered ? 0 : 1 }}
+                  transition={{ duration: 0.22, delay: wordmarkHovered ? 0.1 : 0.78, ease: "easeOut" }}
+                >
+                  Ideas that meet landscape
+                </motion.p>
+                <AnimatePresence>
+                  {wordmarkHovered && (
+                    <motion.p className="absolute inset-x-0 top-[-3px] flex items-baseline justify-center gap-2.5 whitespace-nowrap font-serif text-base font-bold text-[#87972f] md:gap-3.5 md:text-xl">
+                      {["IDEAS", "THAT", "MEET", "LANDSCAPE"].map((word, index) => (
+                        <motion.span
+                          key={word}
+                          className="inline-block origin-bottom"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.88, transition: { duration: 0.2, delay: (3 - index) * 0.1, ease: [0.4, 0, 1, 1] } }}
+                          transition={{
+                            duration: 0.32,
+                            delay: 0.25 + index * 0.25,
+                            ease: [0.32, 0, 0.2, 1],
+                          }}
+                        >
+                          {word}
+                        </motion.span>
+                      ))}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
 
