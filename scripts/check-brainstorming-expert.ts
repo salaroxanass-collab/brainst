@@ -23,4 +23,13 @@ assert.equal(afterDate.date?.from, 1900);
 const unknown = searchBrainstormReferences("completely unrelated xyz", []);
 assert.equal(unknown.length, 0);
 
+const sculpturalMidCenturyGarden = searchBrainstormReferences(
+  "Cool mid-century private garden with sculptural pieces",
+  []
+);
+assert.deepEqual(
+  sculpturalMidCenturyGarden.map((reference) => reference.id),
+  ["miller-house-garden", "donnell-garden"]
+);
+
 console.log("BrainStorm expert checks passed.");

@@ -10,7 +10,9 @@ export type BrainstormSourceId =
   | "asla"
   | "landscape-architecture-magazine"
   | "landscape-australia"
-  | "landscape-first";
+  | "landscape-first"
+  | "cultural-landscape-foundation"
+  | "docomomo-us";
 
 export interface BrainstormSource {
   id: BrainstormSourceId;
@@ -115,6 +117,20 @@ export const brainstormSources: BrainstormSource[] = [
     homepage: "https://www.landscapefirst.com",
     status: "pending",
     focus: "Supplementary landscape architecture references and professional project coverage.",
+  },
+  {
+    id: "cultural-landscape-foundation",
+    name: "The Cultural Landscape Foundation",
+    homepage: "https://www.tclf.org",
+    status: "approved",
+    focus: "Authoritative documentation of significant cultural landscapes, designers, landscape history and preservation.",
+  },
+  {
+    id: "docomomo-us",
+    name: "Docomomo US",
+    homepage: "https://www.docomomo-us.org",
+    status: "approved",
+    focus: "Documentation and conservation records for significant works of Modern architecture and landscape design.",
   },
 ];
 
@@ -1289,6 +1305,86 @@ export const brainstormReferences: BrainstormReference[] = [
     movement: "Heritage landscape regeneration",
     historicalContext: "A contemporary regeneration of the site of London's eighteenth-century Vauxhall Pleasure Gardens, retaining its cultural identity as a landscape of public entertainment.",
   },
+  {
+    id: "miller-house-garden",
+    title: {
+      en: "Miller House and Garden",
+      it: "Casa e Giardino Miller",
+      ro: "Casa si Gradina Miller",
+    },
+    designer: "Dan Kiley with Eero Saarinen, Kevin Roche and Alexander Girard",
+    location: {
+      en: "Columbus, Indiana, USA",
+      it: "Columbus, Indiana, USA",
+      ro: "Columbus, Indiana, SUA",
+    },
+    sourceId: "cultural-landscape-foundation",
+    sourceUrl: "https://www.tclf.org/sites/default/files/microsites/kiley-legacy/MillerGarden.html",
+    imageUrl: "https://www.tclf.org/sites/default/files/microsites/kiley-legacy/assets/Miller/Miller_slide1_crop.jpg",
+    imageCredit: "Photo from The Cultural Landscape Foundation's Dan Kiley legacy documentation. Photography © 2013 Millicent Harvey.",
+    snippet: {
+      en: "Dan Kiley's 13-acre residential masterpiece unifies Eero Saarinen's house with geometric garden rooms, meadow, woodland and a honey-locust allée historically terminated by sculptures by Henry Moore and Jacques Lipchitz.",
+      it: "Il capolavoro residenziale di Dan Kiley unisce la casa di Eero Saarinen a stanze geometriche, prato, bosco e un viale storicamente concluso da sculture di Henry Moore e Jacques Lipchitz.",
+      ro: "Capodopera rezidentiala a lui Dan Kiley uneste casa lui Eero Saarinen cu gradini geometrice, pajiste, padure si o alee marcata istoric de sculpturi Henry Moore si Jacques Lipchitz.",
+    },
+    aiSummary: {
+      en: "An exact precedent for a cool mid-century private garden where architecture, clipped spatial structure, filtered tree canopy and major sculpture form one composition.",
+      it: "Un precedente esatto per un giardino privato mid-century in cui architettura, struttura vegetale, chioma filtrante e scultura formano un'unica composizione.",
+      ro: "Un precedent exact pentru o gradina privata mid-century in care arhitectura, structura vegetala, coronamentul si sculptura formeaza o singura compozitie.",
+    },
+    tags: ["mid-century", "modernism", "private garden", "residential garden", "sculpture", "henry moore", "jacques lipchitz", "allee", "geometric garden"],
+    typology: "Private garden",
+    materials: ["Crushed stone", "Terrazzo", "Lawn", "Hedges", "Sculpture"],
+    plantingStyle: "Architectonic tree grid and clipped spatial structure",
+    climate: "Humid continental",
+    colourPalette: ["#263b2d", "#71815d", "#c7b890", "#80756a"],
+    scale: "Large",
+    atmosphere: "Cool, ordered, contemplative",
+    nbs: ["Mature tree canopy", "Meadow", "Woodland conservation"],
+    healthThemes: ["Contemplation", "Outdoor living", "Art and landscape"],
+    yearCompleted: 1957,
+    historicalPeriod: "Post-war American Modernism",
+    movement: "Mid-century Modernism",
+    historicalContext: "A canonical synthesis of modern architecture, landscape and art. Kiley's abstract spatial order rejected revivalist estate design and helped establish the vocabulary of the post-war American residential garden.",
+  },
+  {
+    id: "donnell-garden",
+    title: { en: "Donnell Garden", it: "Giardino Donnell", ro: "Gradina Donnell" },
+    designer: "Thomas Church with Lawrence Halprin and George Rockrise",
+    location: {
+      en: "Sonoma, California, USA",
+      it: "Sonoma, California, USA",
+      ro: "Sonoma, California, SUA",
+    },
+    sourceId: "docomomo-us",
+    sourceUrl: "https://www.docomomo-us.org/register/donnell-garden",
+    imageUrl: "https://www.tclf.org/sites/default/files/microsites/halprinlegacy/images/donnell-pool/1_cropped_slide.jpg",
+    imageCredit: "Reference photograph from The Cultural Landscape Foundation's Lawrence Halprin legacy documentation. Project record verified by Docomomo US; consult the source for image rights.",
+    snippet: {
+      en: "A 1948 California private garden organised around fluid indoor-outdoor living, a biomorphic pool, preserved oaks and Adaline Kent's abstract sculpture, which acts as both focal point and inhabitable island.",
+      it: "Un giardino privato californiano del 1948 con vita fluida tra interno ed esterno, piscina biomorfa, querce conservate e una scultura astratta di Adaline Kent come fulcro e isola abitabile.",
+      ro: "O gradina privata californiana din 1948, cu relatie fluida interior-exterior, piscina biomorfa, stejari pastrati si sculptura abstracta a lui Adaline Kent ca punct focal si insula locuibila.",
+    },
+    aiSummary: {
+      en: "An exact mid-century private-garden precedent for biomorphic form, sculptural focus, outdoor living and a relaxed but highly composed relationship to the wider landscape.",
+      it: "Un precedente esatto di giardino privato mid-century per forma biomorfa, fulcro scultoreo, vita all'aperto e rapporto composto con il paesaggio.",
+      ro: "Un precedent exact de gradina privata mid-century pentru forma biomorfa, accent sculptural, viata in aer liber si relatie cu peisajul.",
+    },
+    tags: ["mid-century", "california modernism", "private garden", "residential garden", "sculpture", "adaline kent", "biomorphic pool", "outdoor living"],
+    typology: "Private garden",
+    materials: ["Concrete", "Timber deck", "Lawn", "Oak trees", "Sculpture"],
+    plantingStyle: "California Modernist garden with retained native oaks",
+    climate: "Mediterranean",
+    colourPalette: ["#3c5538", "#a6aa75", "#d6c89d", "#6d665b"],
+    scale: "Medium",
+    atmosphere: "Relaxed, sculptural, cinematic",
+    nbs: ["Existing tree retention", "Climate-responsive shade", "Site integration"],
+    healthThemes: ["Outdoor living", "Play", "Art and landscape"],
+    yearCompleted: 1948,
+    historicalPeriod: "Post-war California Modernism",
+    movement: "Mid-century Modernism",
+    historicalContext: "A landmark of California Modernism that translated abstract art and modern domestic life into landscape form, replacing axial formality with dynamic, biomorphic space.",
+  },
 ];
 
 export function sourceName(sourceId: BrainstormSourceId) {
@@ -1395,6 +1491,7 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
           Courtyard: /courtyard|cortile/,
           "Roof garden": /roof garden|rooftop/,
           "Healing landscape": /healing|therapeutic|hospital|healthcare/,
+          "Private garden": /private garden|residential garden|domestic garden/,
         };
         return patterns[requested]?.test(classification) ?? true;
       });
@@ -1495,6 +1592,9 @@ function expandSearchTerms(terms: string[]) {
     schoolyard: ["schoolyard", "school", "scolastico", "scolastica", "playground"],
     playground: ["playground", "schoolyard", "play"],
     cortile: ["courtyard", "schoolyard", "cortile"],
+    sculptural: ["sculptural", "sculpture", "art"],
+    sculptures: ["sculpture", "art"],
+    pieces: ["pieces", "sculpture", "art"],
   };
 
   return Array.from(new Set(terms.flatMap((term) => synonyms[term] ?? [term])));

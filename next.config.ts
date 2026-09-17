@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.sanity.io" },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "landezine.com" },
+      { protocol: "https", hostname: "www.tclf.org" },
     ],
   },
 };

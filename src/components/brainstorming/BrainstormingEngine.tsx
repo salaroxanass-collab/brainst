@@ -860,6 +860,11 @@ function ReferenceCard({
           <p className="mt-1 font-display text-[10px] tracking-[0.18em] text-charcoal-muted uppercase">
             {reference.designer} · {localized(reference.location, locale)}
           </p>
+          {(reference.yearCompleted || reference.movement) && (
+            <p className="mt-2 font-display text-[9px] tracking-[0.16em] text-clay uppercase">
+              {[reference.yearCompleted, reference.movement].filter(Boolean).join(" · ")}
+            </p>
+          )}
         </div>
         <a
           href={reference.sourceUrl}

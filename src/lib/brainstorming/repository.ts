@@ -507,12 +507,17 @@ class SeedBrainstormingRepository implements BrainstormRepository {
         designer: reference.designer,
         collaborators: [],
         location: reference.location.en,
+        yearCompleted: reference.yearCompleted,
         descriptionSnippet: reference.snippet.en,
         descriptionI18n: reference.snippet,
         sourceAccessedAt: new Date().toISOString(),
         attribution: `${sourceName(reference.sourceId)}: ${reference.sourceUrl}`,
         status: "published",
-        metadata: {},
+        metadata: {
+          historicalPeriod: reference.historicalPeriod,
+          movement: reference.movement,
+          historicalContext: reference.historicalContext,
+        },
         aiMetadata: {
           typology: reference.typology,
           materials: reference.materials,

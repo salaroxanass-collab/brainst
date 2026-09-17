@@ -1,4 +1,4 @@
-import type { BrainstormReference } from "@/lib/brainstorming";
+import { brainstormSources, type BrainstormReference } from "@/lib/brainstorming";
 import type { Locale } from "@/lib/types";
 import type { BrainstormProjectRecord, BrainstormSearchResult } from "./model";
 
@@ -27,7 +27,9 @@ export function projectToReference(project: BrainstormProjectRecord, locale: Loc
       it: project.descriptionI18n?.it ? (project.location ?? "") : (project.location ?? ""),
       ro: project.descriptionI18n?.ro ? (project.location ?? "") : (project.location ?? ""),
     },
-    sourceId: project.sourceId === "landscape-first" ? "landscape-first" : "landezine",
+    sourceId: brainstormSources.some((source) => source.id === project.sourceId)
+      ? (project.sourceId as BrainstormReference["sourceId"])
+      : "landezine",
     sourceUrl: project.sourceUrl,
     imageUrl:
       image?.thumbnailUrl ??
@@ -52,6 +54,10 @@ export function projectToReference(project: BrainstormProjectRecord, locale: Loc
     atmosphere: metadata?.atmosphere ?? metadata?.spatialCharacter ?? "Contextual",
     nbs: metadata?.natureBasedSolutions ?? [],
     healthThemes: metadata?.publicHealthThemes ?? [],
+    yearCompleted: project.yearCompleted,
+    historicalPeriod: typeof project.metadata.historicalPeriod === "string" ? project.metadata.historicalPeriod : undefined,
+    movement: typeof project.metadata.movement === "string" ? project.metadata.movement : undefined,
+    historicalContext: typeof project.metadata.historicalContext === "string" ? project.metadata.historicalContext : undefined,
   };
 }
 

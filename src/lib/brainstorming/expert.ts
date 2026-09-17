@@ -35,6 +35,7 @@ const typologyPatterns: Array<[RegExp, string]> = [
   [/\b(courtyard|cortile)\b/i, "Courtyard"],
   [/\b(roof garden|rooftop)\b/i, "Roof garden"],
   [/\b(healing garden|therapeutic garden|hospital landscape)\b/i, "Healing landscape"],
+  [/\b(private|residential|domestic)\s+(garden|landscape)\b/i, "Private garden"],
 ];
 
 const traditionPatterns: Array<[RegExp, string, string]> = [
@@ -62,6 +63,11 @@ const traditionPatterns: Array<[RegExp, string, string]> = [
     /\bmodernis(m|t)\b|\bmodern landscape\b/i,
     "Landscape Modernism",
     "Spatial abstraction, functional outdoor rooms, new materials and a reduced formal language developed through twentieth-century modern design.",
+  ],
+  [
+    /\b(mid-century|midcentury|post-war|postwar)\b/i,
+    "Mid-century Modernism",
+    "Post-war residential landscapes joined indoor and outdoor living through abstract geometry, fluid spatial sequences, restrained materials, sculptural planting and close collaboration with modern architecture and art.",
   ],
   [
     /\blandscape urbanism\b/i,
