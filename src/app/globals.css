@@ -2,15 +2,15 @@
 @import "mapbox-gl/dist/mapbox-gl.css";
 
 @theme {
-  --color-forest: #1b3d2f;
-  --color-forest-light: #2d5c47;
-  --color-clay: #c4754a;
-  --color-clay-dark: #a85f38;
-  --color-sand: #e8dfd0;
-  --color-beige: #f5f0e8;
-  --color-offwhite: #faf8f5;
-  --color-charcoal: #2a2a28;
-  --color-charcoal-muted: #5c5c58;
+  --color-forest: #302231;
+  --color-forest-light: #594158;
+  --color-clay: #c6d85b;
+  --color-clay-dark: #a8ba43;
+  --color-sand: #dce79b;
+  --color-beige: #ebe5ec;
+  --color-offwhite: #f5f1e9;
+  --color-charcoal: #302631;
+  --color-charcoal-muted: #685969;
 
   --font-display: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-dm), ui-sans-serif, system-ui, sans-serif;
