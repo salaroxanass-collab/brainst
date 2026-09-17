@@ -10,10 +10,7 @@ import type { Locale } from "@/lib/types";
 
 const navKeys = [
   "studio",
-  "projects",
   "research",
-  "publications",
-  "services",
   "contact",
   "projectQuestionnaire",
   "brainstormingEngine",
@@ -24,10 +21,7 @@ const languageKeys: Locale[] = ["en", "it", "ro"];
 const navPaths: Record<(typeof navKeys)[number], string> = {
   studio: "studio",
   brainstormingEngine: "brainstorming-engine",
-  projects: "projects",
   research: "research",
-  publications: "publications",
-  services: "services",
   contact: "contact",
   projectQuestionnaire: "project-questionnaire",
 };

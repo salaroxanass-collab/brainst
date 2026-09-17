@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
 type Destination = {
-  key: "studio" | "projects" | "research" | "publications" | "services" | "contact" | "projectQuestionnaire" | "brainstormingEngine";
+  key: "studio" | "research" | "contact" | "projectQuestionnaire" | "brainstormingEngine";
   path: string;
   position: string;
   align: string;
@@ -16,29 +16,11 @@ type Destination = {
 
 const destinations: Destination[] = [
   { key: "studio", path: "studio", position: "left-1/2 top-[8%] -translate-x-1/2", align: "text-center", road: "M565 -80 C500 60 640 130 555 220 C505 270 590 280 565 315", district: "Ideas and approach" },
-  { key: "projects", path: "projects", position: "left-[5%] top-[48%]", align: "text-left", road: "M470 390 L280 390 L-90 455", district: "Built places" },
   { key: "research", path: "research", position: "left-[11%] bottom-[13%]", align: "text-left", road: "M500 450 L340 545 L-80 805", district: "The field station" },
-  { key: "publications", path: "publications", position: "left-[36%] bottom-[5%]", align: "text-center", road: "M565 465 L540 600 L470 850", district: "The archive" },
-  { key: "services", path: "services", position: "right-[7%] top-[19%]", align: "text-right", road: "M635 330 L790 235 L1210 105", district: "What we do" },
   { key: "contact", path: "contact", position: "right-[5%] top-[48%]", align: "text-right", road: "M660 390 L850 390 L1220 455", district: "Meet here" },
   { key: "projectQuestionnaire", path: "project-questionnaire", position: "right-[8%] bottom-[12%]", align: "text-right", road: "M635 450 L790 545 L1210 805", district: "Begin a brief" },
   { key: "brainstormingEngine", path: "brainstorming-engine", position: "left-[7%] top-[19%]", align: "text-left", road: "M500 330 L350 235 L-80 105", district: "Explore precedents" },
 ];
-
-const basemapPlots = [
-  { x: 18, y: 70, w: 178, h: 118, r: -3, buildings: [[14, 15, 42, 25], [67, 12, 31, 42], [110, 16, 50, 24], [18, 58, 58, 37], [92, 66, 25, 26], [128, 55, 34, 42]] },
-  { x: 224, y: 54, w: 170, h: 126, r: 2, buildings: [[14, 12, 62, 29], [90, 14, 55, 20], [18, 54, 28, 52], [58, 52, 44, 26], [112, 48, 37, 55]] },
-  { x: 735, y: 52, w: 166, h: 128, r: -2, buildings: [[15, 14, 44, 42], [72, 14, 75, 23], [70, 49, 34, 42], [114, 47, 34, 25], [18, 70, 35, 33], [68, 103, 75, 12]] },
-  { x: 927, y: 70, w: 184, h: 116, r: 3, buildings: [[16, 15, 34, 31], [62, 13, 45, 23], [119, 15, 47, 40], [14, 62, 63, 35], [89, 57, 29, 43], [131, 69, 37, 29]] },
-  { x: 30, y: 224, w: 186, h: 118, r: 2, buildings: [[14, 14, 50, 34], [76, 12, 31, 24], [119, 15, 48, 46], [18, 63, 30, 34], [61, 55, 69, 45], [141, 70, 27, 26]] },
-  { x: 250, y: 218, w: 142, h: 108, r: -2, buildings: [[12, 12, 30, 42], [53, 12, 72, 23], [54, 47, 32, 44], [95, 44, 31, 23], [13, 69, 30, 23]] },
-  { x: 738, y: 218, w: 145, h: 108, r: 2, buildings: [[14, 13, 54, 23], [79, 12, 48, 38], [12, 49, 31, 42], [53, 48, 63, 24], [59, 81, 68, 15]] },
-  { x: 915, y: 224, w: 188, h: 118, r: -2, buildings: [[14, 14, 38, 44], [64, 13, 70, 25], [145, 15, 26, 39], [15, 70, 55, 29], [82, 55, 33, 44], [126, 64, 45, 35]] },
-  { x: 24, y: 492, w: 190, h: 134, r: -2, buildings: [[15, 15, 60, 28], [88, 14, 35, 43], [136, 16, 36, 24], [17, 57, 31, 55], [61, 57, 62, 26], [137, 56, 34, 54]] },
-  { x: 242, y: 516, w: 160, h: 130, r: 2, buildings: [[13, 13, 36, 48], [60, 14, 78, 22], [60, 48, 31, 46], [103, 47, 37, 24], [15, 77, 34, 35], [96, 84, 45, 29]] },
-  { x: 728, y: 516, w: 166, h: 130, r: -2, buildings: [[15, 14, 58, 24], [85, 13, 61, 35], [14, 52, 31, 57], [57, 50, 50, 29], [117, 60, 30, 48], [60, 94, 47, 18]] },
-  { x: 920, y: 492, w: 188, h: 134, r: 2, buildings: [[15, 14, 37, 43], [64, 14, 75, 24], [151, 14, 22, 52], [14, 72, 62, 38], [88, 53, 35, 55], [136, 76, 37, 33]] },
-] as const;
 
 export function CityMapHero() {
   const locale = useLocale();
@@ -88,21 +70,16 @@ export function CityMapHero() {
               <path d="M-45 604 C115 525 270 530 360 610 S612 705 775 620 S1020 525 1180 598" />
             </g>
 
-            <g fill="none" stroke="#6f6a6e" strokeWidth="1.05" opacity="0.2" filter="url(#hand-drawn-ink)">
-              {basemapPlots.map((plot, plotIndex) => (
-                <g key={plotIndex} transform={`rotate(${plot.r} ${plot.x + plot.w / 2} ${plot.y + plot.h / 2})`}>
-                  <path d={`M${plot.x + 4} ${plot.y + 9} L${plot.x + plot.w - 12} ${plot.y + 3} L${plot.x + plot.w - 3} ${plot.y + plot.h - 12} L${plot.x + 12} ${plot.y + plot.h - 3} Z`} />
-                  {plot.buildings.map(([x, y, width, height], buildingIndex) => (
-                    <g key={buildingIndex}>
-                      <rect x={plot.x + x} y={plot.y + y} width={width} height={height} />
-                      {buildingIndex % 3 === 0 && <path d={`M${plot.x + x} ${plot.y + y} L${plot.x + x + width} ${plot.y + y + height}`} />}
-                    </g>
-                  ))}
-                  <circle cx={plot.x + plot.w * 0.49} cy={plot.y + plot.h * 0.45} r="5" />
-                  <path d={`M${plot.x + plot.w * 0.49 - 5} ${plot.y + plot.h * 0.45} H${plot.x + plot.w * 0.49 + 5} M${plot.x + plot.w * 0.49} ${plot.y + plot.h * 0.45 - 5} V${plot.y + plot.h * 0.45 + 5}`} />
-                </g>
-              ))}
-            </g>
+            <image
+              href="/images/brainst-city-basemap.png"
+              x="90"
+              y="18"
+              width="950"
+              height="720"
+              preserveAspectRatio="xMidYMid meet"
+              opacity="0.16"
+              style={{ mixBlendMode: "multiply" }}
+            />
 
             <g
               className="cursor-pointer"
@@ -140,7 +117,7 @@ export function CityMapHero() {
             <path d="M558 307 C611 294 653 333 647 377 C665 421 630 462 580 476 C531 489 486 459 489 414 C470 368 505 318 558 307Z" fill="#c6d85b" stroke="#302231" strokeWidth="1.2" filter="url(#hand-drawn-ink)" />
 
             <g fill="none" stroke="#302231" strokeLinecap="round" filter="url(#hand-drawn-ink)">
-              {["M500 330 L516 344", "M470 390 L500 390", "M500 450 L516 436", "M565 465 L565 444", "M635 450 L619 436", "M660 390 L630 390", "M635 330 L619 344"].map((entry, index) => (
+              {["M500 330 L516 344", "M500 450 L516 436", "M635 450 L619 436", "M660 390 L630 390"].map((entry, index) => (
                 <g key={index}>
                   <path d={entry} strokeWidth="19" />
                   <path d={entry} stroke="#eee8dc" strokeWidth="13" />
