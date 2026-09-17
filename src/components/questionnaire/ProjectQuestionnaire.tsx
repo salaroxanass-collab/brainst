@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { questionnaireText as t } from "./questionnaire-ro";
 
 type Option = { value: string; label: string };
 type Question = {
@@ -211,25 +212,28 @@ export function ProjectQuestionnaire({ locale }: { locale: string }) {
   };
 
   if (submitted) {
-    const readable = Object.entries(answers).map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value}`).join("\n");
+    const allQuestions = steps.flat();
+    const questionLabel = (key: string) => t(locale, allQuestions.find(question => question.id === key)?.label ?? key.replace(/([A-Z])/g, " $1"));
+    const answerLabel = (value: string | string[]) => Array.isArray(value) ? value.map(item => t(locale, item)).join(", ") : t(locale, value);
+    const readable = Object.entries(answers).map(([key, value]) => `${questionLabel(key)}: ${answerLabel(value)}`).join("\n");
     const mail = `mailto:hello@brainst.studio?subject=${encodeURIComponent(`New project brief: ${answers.projectType}`)}&body=${encodeURIComponent(readable)}`;
     return (
       <section className="border-t border-charcoal/15 py-14" aria-live="polite">
-        <p className="font-display text-xs tracking-[0.22em] text-clay uppercase">Brief ready</p>
-        <h2 className="mt-4 max-w-3xl font-serif text-4xl text-forest md:text-6xl">Thank you, {answers.name}.</h2>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-charcoal-muted">Your answers are saved on this device. Review the project brief below, then send it to start the conversation.</p>
+        <p className="font-display text-xs tracking-[0.22em] text-clay uppercase">{locale === "ro" ? "Prezentarea proiectului este gata" : "Brief ready"}</p>
+        <h2 className="mt-4 max-w-3xl font-serif text-4xl text-forest md:text-6xl">{locale === "ro" ? "Va multumim" : "Thank you"}, {answers.name}.</h2>
+        <p className="mt-5 max-w-2xl text-base leading-7 text-charcoal-muted">{locale === "ro" ? "Raspunsurile sunt salvate pe acest dispozitiv. Verificati prezentarea de mai jos, apoi trimiteti-o pentru a incepe conversatia." : "Your answers are saved on this device. Review the project brief below, then send it to start the conversation."}</p>
         <dl className="mt-10 divide-y divide-charcoal/10 border-y border-charcoal/10">
           {Object.entries(answers).filter(([, value]) => Array.isArray(value) ? value.length : value).map(([key, value]) => (
             <div key={key} className="grid gap-2 py-4 md:grid-cols-[220px_1fr]">
-              <dt className="font-display text-[11px] tracking-[0.16em] text-charcoal-muted uppercase">{key.replace(/([A-Z])/g, " $1")}</dt>
-              <dd className="font-serif text-xl text-charcoal">{Array.isArray(value) ? value.join(", ") : value}</dd>
+              <dt className="font-display text-[11px] tracking-[0.16em] text-charcoal-muted uppercase">{questionLabel(key)}</dt>
+              <dd className="font-serif text-xl text-charcoal">{answerLabel(value)}</dd>
             </div>
           ))}
         </dl>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href={mail} className="bg-forest px-7 py-4 font-display text-xs tracking-[0.2em] text-offwhite uppercase transition hover:bg-clay">Send project brief</a>
-          <button type="button" onClick={() => setSubmitted(false)} className="border border-charcoal/25 px-7 py-4 font-display text-xs tracking-[0.2em] uppercase">Edit answers</button>
-          <button type="button" onClick={restart} className="px-4 py-4 font-display text-xs tracking-[0.2em] text-charcoal-muted uppercase">Start again</button>
+          <a href={mail} className="bg-forest px-7 py-4 font-display text-xs tracking-[0.2em] text-offwhite uppercase transition hover:bg-clay">{locale === "ro" ? "Trimite prezentarea proiectului" : "Send project brief"}</a>
+          <button type="button" onClick={() => setSubmitted(false)} className="border border-charcoal/25 px-7 py-4 font-display text-xs tracking-[0.2em] uppercase">{locale === "ro" ? "Editeaza raspunsurile" : "Edit answers"}</button>
+          <button type="button" onClick={restart} className="px-4 py-4 font-display text-xs tracking-[0.2em] text-charcoal-muted uppercase">{locale === "ro" ? "Incepe din nou" : "Start again"}</button>
         </div>
       </section>
     );
@@ -238,49 +242,49 @@ export function ProjectQuestionnaire({ locale }: { locale: string }) {
   return (
     <section className="grid gap-10 border-t border-charcoal/15 py-12 lg:grid-cols-[260px_1fr] lg:gap-20">
       <aside>
-        <p className="font-display text-xs tracking-[0.2em] text-clay uppercase">Project brief</p>
-        <p className="mt-3 font-serif text-2xl text-forest">Step {step + 1} of {steps.length}</p>
+        <p className="font-display text-xs tracking-[0.2em] text-clay uppercase">{locale === "ro" ? "Prezentarea proiectului" : "Project brief"}</p>
+        <p className="mt-3 font-serif text-2xl text-forest">{locale === "ro" ? "Pasul" : "Step"} {step + 1} {locale === "ro" ? "din" : "of"} {steps.length}</p>
         <div className="mt-5 h-1 bg-charcoal/10"><div className="h-full bg-clay transition-all" style={{ width: `${((step + 1) / steps.length) * 100}%` }} /></div>
-        <p className="mt-5 text-sm leading-6 text-charcoal-muted">The questionnaire adapts to your project. Your progress is saved automatically on this device.</p>
+        <p className="mt-5 text-sm leading-6 text-charcoal-muted">{locale === "ro" ? "Chestionarul se adapteaza proiectului. Progresul este salvat automat pe acest dispozitiv." : "The questionnaire adapts to your project. Your progress is saved automatically on this device."}</p>
       </aside>
 
       <div className="min-w-0">
         <div className="space-y-12">
           {questions.map(question => (
             <fieldset key={question.id}>
-              <legend className="font-serif text-3xl text-charcoal md:text-4xl">{question.label}</legend>
-              {question.help && <p className="mt-2 text-sm text-charcoal-muted">{question.help}</p>}
+              <legend className="font-serif text-3xl text-charcoal md:text-4xl">{t(locale, question.label)}</legend>
+              {question.help && <p className="mt-2 text-sm text-charcoal-muted">{t(locale, question.help)}</p>}
               {(question.type === "single" || question.type === "multi") && (
                 <div className="mt-6 grid gap-2 sm:grid-cols-2">
                   {question.options?.map(option => {
                     const selected = question.type === "multi" ? (answers[question.id] ?? []).includes(option.value) : answers[question.id] === option.value;
                     return (
                       <button key={option.value} type="button" aria-pressed={selected} onClick={() => question.type === "multi" ? toggle(question.id, option.value) : update(question.id, option.value)} className={`min-h-14 border px-4 py-3 text-left font-display text-sm transition ${selected ? "border-forest bg-forest text-offwhite" : "border-charcoal/20 bg-transparent text-charcoal hover:border-clay"}`}>
-                        {option.label}
+                        {t(locale, option.label)}
                       </button>
                     );
                   })}
                 </div>
               )}
               {(question.type === "text" || question.type === "number") && (
-                <input type={question.type} value={String(answers[question.id] ?? "")} onChange={event => update(question.id, event.target.value)} placeholder={question.placeholder} className="mt-5 w-full border-b border-charcoal/25 bg-transparent py-3 font-serif text-2xl outline-none placeholder:text-charcoal/30 focus:border-clay" />
+                <input type={question.type} value={String(answers[question.id] ?? "")} onChange={event => update(question.id, event.target.value)} placeholder={t(locale, question.placeholder)} className="mt-5 w-full border-b border-charcoal/25 bg-transparent py-3 font-serif text-2xl outline-none placeholder:text-charcoal/30 focus:border-clay" />
               )}
               {question.type === "textarea" && (
-                <textarea rows={4} value={String(answers[question.id] ?? "")} onChange={event => update(question.id, event.target.value)} placeholder={question.placeholder} className="mt-5 w-full resize-y border border-charcoal/20 bg-transparent p-4 font-serif text-xl outline-none placeholder:text-charcoal/30 focus:border-clay" />
+                <textarea rows={4} value={String(answers[question.id] ?? "")} onChange={event => update(question.id, event.target.value)} placeholder={t(locale, question.placeholder)} className="mt-5 w-full resize-y border border-charcoal/20 bg-transparent p-4 font-serif text-xl outline-none placeholder:text-charcoal/30 focus:border-clay" />
               )}
             </fieldset>
           ))}
         </div>
 
         <div className="mt-12 flex items-center justify-between border-t border-charcoal/15 pt-6">
-          <button type="button" disabled={step === 0} onClick={() => setStep(value => value - 1)} className="font-display text-xs tracking-[0.18em] uppercase disabled:opacity-30">← Back</button>
+          <button type="button" disabled={step === 0} onClick={() => setStep(value => value - 1)} className="font-display text-xs tracking-[0.18em] uppercase disabled:opacity-30">← {locale === "ro" ? "Inapoi" : "Back"}</button>
           {step < steps.length - 1 ? (
-            <button type="button" disabled={!canContinue} onClick={() => setStep(value => value + 1)} className="bg-forest px-7 py-4 font-display text-xs tracking-[0.2em] text-offwhite uppercase transition hover:bg-clay disabled:cursor-not-allowed disabled:opacity-30">Continue →</button>
+            <button type="button" disabled={!canContinue} onClick={() => setStep(value => value + 1)} className="bg-forest px-7 py-4 font-display text-xs tracking-[0.2em] text-offwhite uppercase transition hover:bg-clay disabled:cursor-not-allowed disabled:opacity-30">{locale === "ro" ? "Continua" : "Continue"} →</button>
           ) : (
-            <button type="button" disabled={!canContinue} onClick={() => setSubmitted(true)} className="bg-clay px-7 py-4 font-display text-xs tracking-[0.2em] text-offwhite uppercase disabled:opacity-30">Review project brief</button>
+            <button type="button" disabled={!canContinue} onClick={() => setSubmitted(true)} className="bg-clay px-7 py-4 font-display text-xs tracking-[0.2em] text-offwhite uppercase disabled:opacity-30">{locale === "ro" ? "Verifica prezentarea proiectului" : "Review project brief"}</button>
           )}
         </div>
-        <p className="mt-5 text-xs text-charcoal-muted">Language: {locale.toUpperCase()} · Your answers are not sent until you choose “Send project brief”.</p>
+        <p className="mt-5 text-xs text-charcoal-muted">{locale === "ro" ? "Limba" : "Language"}: {locale.toUpperCase()} · {locale === "ro" ? "Raspunsurile nu sunt trimise pana cand nu alegeti «Trimite prezentarea proiectului»." : "Your answers are not sent until you choose “Send project brief”."}</p>
       </div>
     </section>
   );
