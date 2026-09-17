@@ -128,6 +128,7 @@ export function CityMapHero() {
   const router = useRouter();
   const [hovered, setHovered] = useState<DestinationKey | null>(null);
   const [departing, setDeparting] = useState<Destination | null>(null);
+  const [wordmarkHovered, setWordmarkHovered] = useState(false);
 
   const navigate = (destination: Destination) => {
     if (departing) return;
@@ -223,9 +224,37 @@ export function CityMapHero() {
             <path d="M600 414 L644 410 L650 433 L605 438Z" fill="#e8e1d3" stroke="#61575c" strokeWidth="0.65" />
           </svg>
 
-          <div className="absolute left-1/2 top-1/2 z-20 flex h-36 w-44 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center text-center md:h-44 md:w-56">
-            <h1 className="font-display text-4xl font-bold tracking-[0.08em] text-[#302231] uppercase md:text-5xl">BrainSt</h1>
-            <p className="mt-2 font-serif text-sm font-semibold text-[#302231]">Ideas meet landscape</p>
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-36 w-[min(92vw,520px)] -translate-x-1/2 -translate-y-1/2 md:h-44">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[58%] text-center">
+              <button
+                type="button"
+                className="pointer-events-auto relative inline-block cursor-default whitespace-nowrap focus:outline-none"
+                onMouseEnter={() => setWordmarkHovered(true)}
+                onMouseLeave={() => setWordmarkHovered(false)}
+                onFocus={() => setWordmarkHovered(true)}
+                onBlur={() => setWordmarkHovered(false)}
+                aria-label="BrainSt. Hover to reveal Brainstorming."
+              >
+                <span className="font-display text-4xl font-bold tracking-[0.08em] text-[#302231] uppercase md:text-5xl">BrainSt</span>
+                <AnimatePresence>
+                  {wordmarkHovered && (
+                    <motion.span
+                      className="absolute left-full top-0 font-display text-4xl font-bold tracking-[0.08em] text-[#302231] uppercase md:text-5xl"
+                      initial={{ x: 24, opacity: 0, clipPath: "inset(0 0 0 100%)" }}
+                      animate={{ x: 0, opacity: 1, clipPath: "inset(0 0 0 0%)" }}
+                      exit={{ x: 18, opacity: 0, clipPath: "inset(0 0 0 100%)" }}
+                      transition={{ duration: 0.3, ease: [0.65, 0, 0.35, 1] }}
+                    >
+                      orming
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+              <p className="mt-2 whitespace-nowrap font-serif text-sm font-semibold text-[#302231]">
+                <motion.span animate={wordmarkHovered ? { color: "#78852f", fontWeight: 700 } : { color: "#302231", fontWeight: 600 }} transition={{ duration: 0.25 }}>Ideas</motion.span>{" "}
+                that meet landscape
+              </p>
+            </div>
           </div>
 
           {destinations.map(destination => (
@@ -237,13 +266,13 @@ export function CityMapHero() {
               onFocus={() => setHovered(destination.key)}
               onBlur={() => setHovered(null)}
               onClick={() => navigate(destination)}
-              className={`group absolute z-30 max-w-[220px] px-2 py-2 transition-transform duration-200 hover:-translate-y-0.5 focus:-translate-y-0.5 focus:outline-none ${destination.position} ${destination.align}`}
+              className={`group absolute z-30 max-w-[240px] px-2 py-2 transition-transform duration-300 hover:-translate-y-0.5 focus:-translate-y-0.5 focus:outline-none ${destination.position} ${destination.align}`}
               aria-label={`${tNav(destination.key)}: ${destination.subtitle}`}
             >
-              <span className="inline-block px-1 py-0.5 font-display text-[9px] font-semibold tracking-[0.11em] text-[#302231] uppercase [text-shadow:0_0_5px_#e8e1d3,0_0_5px_#e8e1d3,0_0_5px_#e8e1d3] transition-colors group-hover:text-[#78852f] group-focus:text-[#78852f] md:text-[11px]">
+              <span className="inline-block bg-[#302231] px-2.5 py-1.5 font-display text-[10px] font-bold tracking-[0.1em] text-[#f5f1e9] uppercase transition-colors duration-300 group-hover:bg-[#594158] group-focus:bg-[#594158] md:text-sm">
                 {destination.key === "studio" ? "Studio philosophy" : destination.key === "projects" ? "Projects" : tNav(destination.key)}
               </span>
-              <span className={`mt-1 hidden px-1 font-serif text-[11px] italic text-[#594158] [text-shadow:0_0_4px_#e8e1d3,0_0_4px_#e8e1d3] transition-opacity md:block ${hovered === destination.key ? "opacity-100" : "opacity-0"}`}>{destination.subtitle} →</span>
+              <span className={`mt-1 hidden w-max max-w-[230px] bg-[#e8e1d3] px-2.5 py-1.5 font-serif text-xs text-[#302231] transition-opacity duration-300 md:block ${hovered === destination.key ? "opacity-100" : "pointer-events-none opacity-0"}`}>{destination.subtitle} →</span>
             </button>
           ))}
         </motion.div>
