@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { Locale } from "@/lib/types";
@@ -235,65 +235,22 @@ const copy = {
 export function BrainstormingEngine({ locale }: { locale: Locale }) {
   const t = copy[locale];
   const [query, setQuery] = useState(examplePrompts[0]);
+  const [submittedQuery, setSubmittedQuery] = useState(examplePrompts[0]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [submittedFilters, setSubmittedFilters] = useState<string[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [brainstormed, setBrainstormed] = useState(false);
   const [remoteResults, setRemoteResults] = useState<BrainstormReference[] | null>(null);
   const [dataMode, setDataMode] = useState<"seed" | "database">("seed");
-  const [isSearching, setIsSearching] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const resultsSectionRef = useRef<HTMLDivElement | null>(null);
 
   const seedResults = useMemo(
-    () => searchBrainstormReferences(query, activeFilters),
-    [query, activeFilters]
+    () => searchBrainstormReferences(submittedQuery, submittedFilters),
+    [submittedFilters, submittedQuery]
   );
 
   const results = remoteResults ?? seedResults;
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const timeout = window.setTimeout(async () => {
-      setIsSearching(true);
-
-      try {
-        const response = await fetch("/api/brainstorming/search", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            prompt: query,
-            filters: { selected: activeFilters },
-            locale,
-            limit: 24,
-          }),
-          signal: controller.signal,
-        });
-
-        if (!response.ok) throw new Error("Search request failed");
-        const payload = (await response.json()) as {
-          mode?: "seed" | "database";
-          results?: BrainstormReference[];
-        };
-
-        setRemoteResults(payload.results ?? null);
-        setDataMode(payload.mode ?? "seed");
-      } catch {
-        if (!controller.signal.aborted) {
-          setRemoteResults(null);
-          setDataMode("seed");
-        }
-      } finally {
-        if (!controller.signal.aborted) {
-          setIsSearching(false);
-        }
-      }
-    }, 260);
-
-    return () => {
-      controller.abort();
-      window.clearTimeout(timeout);
-    };
-  }, [activeFilters, locale, query]);
 
   const selectableReferences = useMemo(() => {
     const byId = new Map<string, BrainstormReference>();
@@ -311,18 +268,18 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
     [selectableReferences, selectedIds]
   );
 
-  const inferred = inferBrainstorm(query, activeFilters, results, locale);
+  const inferred = inferBrainstorm(submittedQuery, submittedFilters, results, locale);
   const resultInsights = useMemo(
-    () => buildResultInsights(results, query, activeFilters),
-    [activeFilters, query, results]
+    () => buildResultInsights(results, submittedQuery, submittedFilters),
+    [results, submittedFilters, submittedQuery]
   );
   const requestedYears = useMemo(
-    () => extractRequestedYears(`${query} ${activeFilters.join(" ")}`),
-    [activeFilters, query]
+    () => extractRequestedYears(`${submittedQuery} ${submittedFilters.join(" ")}`),
+    [submittedFilters, submittedQuery]
   );
   const strongMatchCount = resultInsights.filter((item) => item.strength === "strong").length;
   const relatedMatchCount = Math.max(results.length - strongMatchCount, 0);
-  const showClosestNote = results.length > 0 && strongMatchCount === 0 && query.trim().length > 0;
+  const showClosestNote = results.length > 0 && strongMatchCount === 0 && submittedQuery.trim().length > 0;
   const showTimePeriodNote = requestedYears.length > 0;
 
   function toggleFilter(value: string) {
@@ -341,17 +298,51 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
     );
   }
 
-  function generateBrainstorm() {
+  async function generateBrainstorm() {
+    if (isGenerating) return;
+
+    const nextQuery = query.trim();
+    const nextFilters = [...activeFilters];
     setIsGenerating(true);
     setSelectedIds([]);
-    setBrainstormed(true);
-    window.setTimeout(() => {
-      resultsSectionRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
+    setSubmittedQuery(nextQuery);
+    setSubmittedFilters(nextFilters);
+
+    try {
+      const response = await fetch("/api/brainstorming/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: nextQuery,
+          filters: { selected: nextFilters },
+          locale,
+          limit: 24,
+        }),
       });
-    }, 180);
-    window.setTimeout(() => setIsGenerating(false), 1100);
+
+      if (!response.ok) throw new Error("Search request failed");
+      const payload = (await response.json()) as {
+        mode?: "seed" | "database";
+        results?: BrainstormReference[];
+      };
+
+      setRemoteResults(payload.results ?? null);
+      setDataMode(payload.mode ?? "seed");
+    } catch {
+      setRemoteResults(null);
+      setDataMode("seed");
+    } finally {
+      setBrainstormed(true);
+      setIsGenerating(false);
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          resultsSectionRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        });
+      });
+    }
   }
 
   return (
@@ -405,17 +396,22 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
                 type="button"
                 onClick={generateBrainstorm}
                 aria-busy={isGenerating}
+                disabled={isGenerating}
                 className={`bg-clay px-5 py-3 font-display text-[10px] tracking-[0.24em] text-offwhite uppercase transition hover:bg-clay-dark active:scale-95 ${
                   isGenerating ? "animate-pulse ring-2 ring-clay/40 ring-offset-2 ring-offset-forest" : ""
                 }`}
               >
-                {t.generate}
+                {isGenerating ? t.searching : t.generate}
               </button>
               <button
                 type="button"
                 onClick={() => {
                   setQuery("");
                   setActiveFilters([]);
+                  setSubmittedQuery("");
+                  setSubmittedFilters([]);
+                  setRemoteResults(null);
+                  setSelectedIds([]);
                   setBrainstormed(false);
                 }}
                 className="border border-offwhite/25 px-5 py-3 font-display text-[10px] tracking-[0.24em] text-offwhite/80 uppercase transition hover:border-offwhite hover:text-offwhite"
@@ -476,31 +472,29 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
 
         <div className="md:col-span-9">
           <BrainstormPanel
-            active={brainstormed || query.length > 0}
+            active={brainstormed || submittedQuery.length > 0}
             inferred={inferred}
             labels={t}
           />
 
-          {(activeFilters.length > 0 || query.trim().length > 0) && (
+          {(submittedFilters.length > 0 || submittedQuery.trim().length > 0) && (
             <div className="mt-6 border border-charcoal/10 bg-offwhite p-4">
               <div className="flex flex-wrap items-center gap-3">
                 <p className="font-display text-[9px] tracking-[0.22em] text-clay uppercase">
                   {t.activeFilters}
                 </p>
-                {query.trim().length > 0 && (
+                {submittedQuery.trim().length > 0 && (
                   <span className="border border-forest/15 bg-beige px-3 py-2 font-display text-[9px] tracking-[0.14em] text-forest uppercase">
-                    {query}
+                    {submittedQuery}
                   </span>
                 )}
-                {activeFilters.map((filter) => (
-                  <button
+                {submittedFilters.map((filter) => (
+                  <span
                     key={filter}
-                    type="button"
-                    onClick={() => toggleFilter(filter)}
-                    className="border border-charcoal/15 px-3 py-2 font-display text-[9px] tracking-[0.14em] text-charcoal uppercase transition hover:border-clay hover:text-clay"
+                    className="border border-charcoal/15 px-3 py-2 font-display text-[9px] tracking-[0.14em] text-charcoal uppercase"
                   >
-                    {filter} ×
-                  </button>
+                    {filter}
+                  </span>
                 ))}
               </div>
               {showClosestNote && (
@@ -522,7 +516,7 @@ export function BrainstormingEngine({ locale }: { locale: Locale }) {
           >
             <div>
               <p className="font-display text-[10px] tracking-[0.3em] text-clay uppercase">
-                {t.results} · {isSearching ? t.searching : dataMode === "database" ? t.dataModeDatabase : t.dataModeSeed}
+                {t.results} · {isGenerating ? t.searching : dataMode === "database" ? t.dataModeDatabase : t.dataModeSeed}
               </p>
               <h2 className="mt-2 font-display text-4xl tracking-[0.08em] text-forest uppercase md:text-5xl">
                 {results.length} references
