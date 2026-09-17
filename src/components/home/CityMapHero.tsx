@@ -104,14 +104,31 @@ export function CityMapHero() {
               ))}
             </g>
 
-            <motion.path d={destinations[0].road} fill="none" stroke="#302231" strokeWidth={studioActive ? 38 : 32} strokeLinecap="round" animate={{ strokeWidth: studioActive ? 38 : 32 }} filter="url(#hand-drawn-ink)" />
-            <motion.path d={destinations[0].road} fill="none" stroke={studioActive ? "#dbe77a" : "#c6d85b"} strokeWidth={studioActive ? 32 : 26} strokeLinecap="round" animate={{ stroke: studioActive ? "#dbe77a" : "#c6d85b", strokeWidth: studioActive ? 32 : 26 }} />
+            <g
+              className="cursor-pointer"
+              onMouseEnter={() => setHovered("studio")}
+              onMouseLeave={() => setHovered(null)}
+              onClick={() => navigate(destinations[0])}
+            >
+              <motion.path d="M565 -80 C520 15 610 75 580 130" fill="none" stroke="#302231" strokeWidth={studioActive ? 54 : 48} strokeLinecap="round" animate={{ strokeWidth: studioActive ? 54 : 48 }} filter="url(#hand-drawn-ink)" />
+              <motion.path d="M580 126 C635 170 520 215 555 252" fill="none" stroke="#302231" strokeWidth={studioActive ? 44 : 38} strokeLinecap="round" animate={{ strokeWidth: studioActive ? 44 : 38 }} filter="url(#hand-drawn-ink)" />
+              <motion.path d="M555 248 C525 276 580 290 565 330" fill="none" stroke="#302231" strokeWidth={studioActive ? 34 : 28} strokeLinecap="round" animate={{ strokeWidth: studioActive ? 34 : 28 }} filter="url(#hand-drawn-ink)" />
+              <motion.path d="M565 -80 C520 15 610 75 580 130" fill="none" stroke={studioActive ? "#dbe77a" : "#c6d85b"} strokeWidth={studioActive ? 46 : 40} strokeLinecap="round" animate={{ stroke: studioActive ? "#dbe77a" : "#c6d85b", strokeWidth: studioActive ? 46 : 40 }} />
+              <motion.path d="M580 126 C635 170 520 215 555 252" fill="none" stroke={studioActive ? "#dbe77a" : "#c6d85b"} strokeWidth={studioActive ? 36 : 30} strokeLinecap="round" animate={{ stroke: studioActive ? "#dbe77a" : "#c6d85b", strokeWidth: studioActive ? 36 : 30 }} />
+              <motion.path d="M555 248 C525 276 580 290 565 330" fill="none" stroke={studioActive ? "#dbe77a" : "#c6d85b"} strokeWidth={studioActive ? 26 : 20} strokeLinecap="round" animate={{ stroke: studioActive ? "#dbe77a" : "#c6d85b", strokeWidth: studioActive ? 26 : 20 }} />
+            </g>
 
             {destinations.map(destination => {
               if (destination.key === "studio") return null;
               const active = hovered === destination.key || departing?.key === destination.key;
               return (
-                <g key={destination.key}>
+                <g
+                  key={destination.key}
+                  className="cursor-pointer"
+                  onMouseEnter={() => setHovered(destination.key)}
+                  onMouseLeave={() => setHovered(null)}
+                  onClick={() => navigate(destination)}
+                >
                   <motion.path d={destination.road} fill="none" stroke={active ? "#c6d85b" : "#302231"} strokeWidth={active ? 32 : 24} strokeLinecap="round" animate={{ stroke: active ? "#c6d85b" : "#302231", strokeWidth: active ? 32 : 24 }} filter="url(#hand-drawn-ink)" />
                   <motion.path d={destination.road} fill="none" stroke="#e8e1d3" strokeWidth={active ? 22 : 17} strokeLinecap="round" animate={{ strokeWidth: active ? 22 : 17 }} />
                   <motion.path d={destination.road} fill="none" stroke="#302231" strokeWidth="1.5" strokeDasharray="9 11" strokeLinecap="round" />
@@ -121,8 +138,24 @@ export function CityMapHero() {
 
             <path d="M552 278 C620 268 681 309 669 369 C694 418 650 488 582 501 C522 516 451 478 463 416 C438 357 479 292 552 278Z" fill="#eee8dc" stroke="#302231" strokeWidth="2.5" filter="url(#hand-drawn-ink)" />
             <path d="M558 307 C611 294 653 333 647 377 C665 421 630 462 580 476 C531 489 486 459 489 414 C470 368 505 318 558 307Z" fill="#c6d85b" stroke="#302231" strokeWidth="1.2" filter="url(#hand-drawn-ink)" />
-            <path d="M519 386 C534 346 590 336 616 372 C638 402 611 442 570 446 C532 449 502 422 519 386Z" fill="#afc342" opacity="0.72" />
-            <circle cx="540" cy="376" r="6" fill="#302231" /><circle cx="590" cy="411" r="8" fill="#302231" /><circle cx="574" cy="357" r="5" fill="#302231" />
+
+            <g fill="none" stroke="#302231" strokeLinecap="round" filter="url(#hand-drawn-ink)">
+              {["M500 330 L516 344", "M470 390 L500 390", "M500 450 L516 436", "M565 465 L565 444", "M635 450 L619 436", "M660 390 L630 390", "M635 330 L619 344"].map((entry, index) => (
+                <g key={index}>
+                  <path d={entry} strokeWidth="19" />
+                  <path d={entry} stroke="#eee8dc" strokeWidth="13" />
+                  <path d={entry} strokeWidth="1.4" strokeDasharray="7 8" />
+                </g>
+              ))}
+            </g>
+
+            <g fill="#afc342" stroke="#302231" strokeWidth="0.9" opacity="0.86">
+              <path d="M479 331 C490 315 506 309 521 314 L514 337 C501 341 488 338 479 331Z" />
+              <path d="M618 314 C633 311 647 322 654 337 L627 343 C619 335 616 324 618 314Z" />
+              <path d="M480 439 C490 451 505 460 522 464 L516 440 C504 432 490 432 480 439Z" />
+              <path d="M619 439 C634 431 647 437 654 448 C642 459 629 465 615 467Z" />
+            </g>
+            <path d="M512 365 C529 346 604 345 621 365 C634 381 630 415 612 428 C591 443 535 442 515 426 C499 413 497 382 512 365Z" fill="#c6d85b" />
           </svg>
 
           <div className="absolute left-1/2 top-1/2 z-20 flex h-36 w-36 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center text-center md:h-44 md:w-44">
@@ -145,7 +178,7 @@ export function CityMapHero() {
               <span className="block bg-[#302231] px-2 py-1 font-display text-[10px] font-semibold tracking-[0.1em] text-[#c6d85b] uppercase shadow-[2px_2px_0_rgba(198,216,91,0.35)] transition-all duration-200 group-hover:bg-[#c6d85b] group-hover:text-[#302231] group-focus:bg-[#c6d85b] group-focus:text-[#302231] md:text-base">
                 {destination.key === "studio" ? "Studio philosophy" : tNav(destination.key)}
               </span>
-              <span className="mt-1 hidden font-serif text-xs text-[#302231] md:block">{destination.district} <span className="opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-100">→</span></span>
+              <span className={`mt-1 hidden bg-[#eee8dc]/92 px-1 font-serif text-xs text-[#302231] transition-opacity duration-200 md:block ${hovered === destination.key ? "opacity-100" : "opacity-0"}`}>{destination.district} <span>→</span></span>
             </button>
           ))}
         </motion.div>
