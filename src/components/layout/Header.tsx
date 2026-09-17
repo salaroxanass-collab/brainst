@@ -39,11 +39,12 @@ export function Header() {
   const locale = useLocale();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const isHome = /^\/(en|it|ro)\/?$/.test(pathname);
 
   const pathWithoutLocale = pathname.replace(/^\/(en|it|ro)/, "") || "/";
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 border-b border-offwhite/10 bg-forest/88 text-offwhite shadow-[0_1px_24px_rgba(0,0,0,0.18)] backdrop-blur-md">
+    <header className={cn("fixed top-0 right-0 left-0 z-50 border-b border-offwhite/10 text-offwhite shadow-[0_1px_24px_rgba(0,0,0,0.18)] backdrop-blur-md", isHome ? "bg-[#625158]/95" : "bg-forest/88")}>
       <div className="mx-auto flex max-w-[1800px] items-center justify-between px-6 py-6 md:px-10">
         <Link
           href={`/${locale}`}
