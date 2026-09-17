@@ -30,7 +30,7 @@ const destinations: Destination[] = [
   {
     key: "brainstormingEngine",
     path: "brainstorming-engine",
-    route: "M500 353 C424 321 371 274 308 245 C220 204 126 180 -85 137",
+    route: "M414 365 C371 352 342 320 294 294 C205 245 111 207 -85 171",
     position: "left-[5%] top-[22%]",
     align: "text-left",
     subtitle: "Explore precedents",
@@ -38,7 +38,7 @@ const destinations: Destination[] = [
   {
     key: "research",
     path: "research",
-    route: "M503 439 C437 478 401 520 329 561 C230 618 116 682 -80 810",
+    route: "M438 465 C407 495 386 530 331 567 C222 640 108 700 -80 810",
     position: "left-[8%] bottom-[11%]",
     align: "text-left",
     subtitle: "The field station",
@@ -46,7 +46,7 @@ const destinations: Destination[] = [
   {
     key: "projectQuestionnaire",
     path: "project-questionnaire",
-    route: "M630 445 C696 480 742 530 813 563 C912 611 1034 690 1215 805",
+    route: "M651 493 C706 508 748 542 818 577 C920 628 1039 696 1215 805",
     position: "right-[7%] bottom-[11%]",
     align: "text-right",
     subtitle: "Begin a brief",
@@ -54,7 +54,7 @@ const destinations: Destination[] = [
   {
     key: "contact",
     path: "contact",
-    route: "M657 389 C735 373 808 391 878 410 C970 435 1058 448 1215 457",
+    route: "M726 407 C773 394 823 403 882 420 C974 446 1062 451 1215 457",
     position: "right-[5%] top-[49%]",
     align: "text-right",
     subtitle: "Meet here",
@@ -62,7 +62,7 @@ const destinations: Destination[] = [
   {
     key: "projects",
     path: "projects",
-    route: "M627 342 C690 301 742 266 801 237 C888 195 997 150 1210 106",
+    route: "M672 305 C712 286 754 259 805 235 C895 193 1003 149 1210 106",
     position: "right-[7%] top-[20%]",
     align: "text-right",
     subtitle: "Enter the neighbourhood",
@@ -138,14 +138,14 @@ export function CityMapHero() {
             <rect width="1130" height="760" fill="url(#paper-dots)" />
             <rect width="1130" height="760" fill="#302231" filter="url(#paper-texture)" opacity="0.45" />
 
-            <g fill="none" stroke="#736b70" strokeWidth="1.15" opacity="0.24" filter="url(#hand-drawn)">
+            <g fill="none" stroke="#736b70" strokeWidth="0.7" opacity="0.22" filter="url(#hand-drawn)">
               {secondaryStreets.map((street, index) => <path key={index} d={street} />)}
             </g>
 
-            <g fill="#e1dacd" stroke="#61575c" strokeWidth="1.15" opacity="0.34" filter="url(#hand-drawn)">
+            <g fill="#ded6c9" stroke="#61575c" strokeWidth="0.65" opacity="0.38" filter="url(#hand-drawn)">
               {buildingFootprints.map((building, index) => <path key={index} d={building} />)}
             </g>
-            <g fill="none" stroke="#61575c" strokeWidth="1" opacity="0.34">
+            <g fill="none" stroke="#61575c" strokeWidth="0.65" opacity="0.34">
               {courtyards.map(([cx, cy, r], index) => <g key={index}><circle cx={cx} cy={cy} r={r} /><circle cx={cx} cy={cy} r={r * 0.42} /></g>)}
             </g>
 
@@ -154,8 +154,8 @@ export function CityMapHero() {
               fill={hovered === "projects" ? "#c6d85b" : "#dce79b"}
               fillOpacity={hovered === "projects" ? 0.3 : 0.16}
               stroke="#302231"
-              strokeWidth={hovered === "projects" ? 3 : 1.4}
-              strokeDasharray="9 8"
+              strokeWidth={hovered === "projects" ? 1.8 : 0.8}
+              strokeDasharray="6 7"
               filter="url(#hand-drawn)"
             />
 
@@ -163,30 +163,36 @@ export function CityMapHero() {
               const active = hovered === destination.key || departing?.key === destination.key;
               return (
                 <g key={destination.key} className="cursor-pointer" onMouseEnter={() => setHovered(destination.key)} onMouseLeave={() => setHovered(null)} onClick={() => navigate(destination)}>
-                  <motion.path d={destination.route} fill="none" stroke={active ? "#c6d85b" : "#302231"} strokeWidth={active ? 32 : destination.kind === "district" ? 27 : 24} strokeLinecap="round" strokeLinejoin="round" animate={{ stroke: active ? "#c6d85b" : "#302231", strokeWidth: active ? 32 : destination.kind === "district" ? 27 : 24 }} filter="url(#hand-drawn)" />
-                  <motion.path d={destination.route} fill="none" stroke="#e8e1d3" strokeWidth={active ? 22 : destination.kind === "district" ? 20 : 17} strokeLinecap="round" strokeLinejoin="round" animate={{ strokeWidth: active ? 22 : destination.kind === "district" ? 20 : 17 }} />
-                  <path d={destination.route} fill="none" stroke="#302231" strokeWidth="1.4" strokeDasharray="9 11" strokeLinecap="round" />
+                  <motion.path d={destination.route} fill="none" stroke={active ? "#9fb33f" : "#302231"} strokeWidth={active ? 19 : destination.kind === "district" ? 16 : 14} strokeLinecap="round" strokeLinejoin="round" animate={{ stroke: active ? "#9fb33f" : "#302231", strokeWidth: active ? 19 : destination.kind === "district" ? 16 : 14 }} filter="url(#hand-drawn)" />
+                  <motion.path d={destination.route} fill="none" stroke="#e8e1d3" strokeWidth={active ? 14 : destination.kind === "district" ? 12 : 10} strokeLinecap="round" strokeLinejoin="round" animate={{ strokeWidth: active ? 14 : destination.kind === "district" ? 12 : 10 }} />
+                  <path d={destination.route} fill="none" stroke="#302231" strokeWidth="0.8" strokeDasharray="6 9" strokeLinecap="round" />
                 </g>
               );
             })}
 
             <g className="cursor-pointer" onMouseEnter={() => setHovered("studio")} onMouseLeave={() => setHovered(null)} onClick={() => navigate(destinations[0])}>
-              <path d="M574 -55 C535 18 618 68 578 128 C548 173 607 202 565 254 C541 285 573 307 562 340" fill="none" stroke="#302231" strokeWidth="50" strokeLinecap="round" filter="url(#hand-drawn)" />
-              <motion.path d="M574 -55 C535 18 618 68 578 128 C548 173 607 202 565 254 C541 285 573 307 562 340" fill="none" stroke={hovered === "studio" ? "#dbe77a" : "#c6d85b"} strokeWidth={hovered === "studio" ? 44 : 40} strokeLinecap="round" animate={{ stroke: hovered === "studio" ? "#dbe77a" : "#c6d85b" }} />
-              <path d="M548 24 C522 58 538 91 565 109 C541 131 536 160 552 180 C520 209 519 238 538 257" fill="none" stroke="#afc342" strokeWidth="16" strokeLinecap="round" opacity="0.75" />
-              <path d="M597 53 C615 83 606 108 582 126 C600 154 599 179 578 199" fill="none" stroke="#dce79b" strokeWidth="13" strokeLinecap="round" opacity="0.72" />
+              <motion.path d="M557 -30 C548 17 572 48 565 86 C558 125 577 153 568 193 C560 231 575 263 560 301 C555 314 552 326 551 340 C567 344 579 337 588 324 C600 305 595 281 603 258 C614 224 596 194 606 161 C617 124 598 95 606 58 C611 31 600 5 585 -30Z" fill={hovered === "studio" ? "#c6d85b" : "#bdca77"} fillOpacity={hovered === "studio" ? 0.72 : 0.48} stroke="#66703c" strokeWidth="0.9" filter="url(#hand-drawn)" />
+              <path d="M572 -20 C565 24 584 52 576 89 C569 127 588 158 578 194 C569 229 585 258 570 294 C566 305 564 316 565 329" fill="none" stroke="#758044" strokeWidth="0.75" opacity="0.62" />
             </g>
 
-            <path d="M553 278 C621 269 680 307 672 368 C694 421 650 487 584 501 C521 515 452 479 463 414 C441 355 483 291 553 278Z" fill="#eee8dc" stroke="#302231" strokeWidth="2.5" filter="url(#hand-drawn)" />
-            <path d="M558 306 C611 296 652 333 648 378 C662 421 630 463 580 475 C530 486 487 458 489 414 C473 367 507 317 558 306Z" fill="#c6d85b" stroke="#302231" strokeWidth="1.1" filter="url(#hand-drawn)" />
+            <path d="M398 350 C424 322 454 325 479 300 C516 308 547 296 579 286 C614 280 643 302 680 291 L712 315 L705 344 C731 359 739 386 726 412 L738 445 C726 463 708 470 716 494 C682 492 661 507 638 519 C608 527 581 510 550 524 L513 501 C487 508 462 499 442 481 L409 472 C416 452 408 436 389 420 C401 399 401 383 382 369Z" fill="#dce79b" fillOpacity="0.2" stroke="#302231" strokeWidth="0.9" filter="url(#hand-drawn)" />
+            <path d="M523 321 C552 304 597 299 629 311 C653 322 674 344 677 367 C683 391 671 414 649 425 C619 438 576 430 554 408 C534 388 520 352 523 321Z" fill="#c6d85b" fillOpacity="0.1" stroke="none" />
 
-            <g fill="#afc342" stroke="#302231" strokeWidth="0.85" opacity="0.82">
-              <path d="M478 330 C491 314 506 310 521 316 L513 338 C500 341 487 338 478 330Z" />
-              <path d="M619 314 C634 311 648 322 655 338 L627 343 C619 335 616 324 619 314Z" />
-              <path d="M480 440 C490 451 505 460 522 463 L516 440 C504 433 490 432 480 440Z" />
-              <path d="M619 439 C634 431 647 437 655 448 C642 459 629 465 615 467Z" />
+            <g fill="none" stroke="#61575c" strokeWidth="0.65" opacity="0.58">
+              <path d="M398 397 C443 382 484 381 522 397 C558 413 589 416 622 403 C653 391 690 393 729 414" />
+              <path d="M449 318 C472 346 505 365 539 374 C574 383 610 374 641 351 C660 337 681 329 706 329" />
+              <path d="M428 457 C472 438 512 436 548 452 C579 466 614 468 648 452 C671 441 695 439 726 445" />
+              <path d="M494 306 C505 338 502 370 490 398 C480 423 482 463 500 497" />
             </g>
-            <path d="M509 365 C530 347 604 346 622 365 C635 383 629 414 612 428 C590 443 535 442 514 426 C498 413 496 382 509 365Z" fill="#c6d85b" />
+            <g fill="#9fad69" fillOpacity="0.2" stroke="#66703c" strokeWidth="0.55">
+              <path d="M448 338 C468 308 507 296 536 309 C520 328 499 343 473 351Z" />
+              <path d="M622 302 C653 296 682 315 696 343 C673 353 648 351 628 338Z" />
+              <path d="M450 426 C470 445 492 456 519 458 C508 479 477 479 456 462Z" />
+            </g>
+            <g fill="none" stroke="#66703c" strokeWidth="0.55" opacity="0.7">
+              {[ [462,330,8], [477,317,6], [493,325,9], [650,318,7], [668,327,10], [681,346,6], [456,445,7], [475,457,9], [495,462,6], [657,457,7], [676,444,9] ].map(([cx, cy, r], index) => <g key={index}><circle cx={cx} cy={cy} r={r} /><circle cx={cx + 2} cy={cy - 1} r={r * 0.62} /></g>)}
+            </g>
+            <path d="M600 414 L644 410 L650 433 L605 438Z" fill="#e8e1d3" stroke="#61575c" strokeWidth="0.65" />
           </svg>
 
           <div className="absolute left-1/2 top-1/2 z-20 flex h-36 w-44 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center text-center md:h-44 md:w-56">
@@ -203,13 +209,13 @@ export function CityMapHero() {
               onFocus={() => setHovered(destination.key)}
               onBlur={() => setHovered(null)}
               onClick={() => navigate(destination)}
-              className={`group absolute z-30 max-w-[220px] px-2 py-2 transition-transform duration-200 hover:scale-105 focus:scale-105 focus:outline-none ${destination.position} ${destination.align}`}
+              className={`group absolute z-30 max-w-[220px] px-2 py-2 transition-transform duration-200 hover:-translate-y-0.5 focus:-translate-y-0.5 focus:outline-none ${destination.position} ${destination.align}`}
               aria-label={`${tNav(destination.key)}: ${destination.subtitle}`}
             >
-              <span className="block bg-[#302231] px-2 py-1 font-display text-[10px] font-semibold tracking-[0.1em] text-[#c6d85b] uppercase shadow-[2px_2px_0_rgba(198,216,91,0.35)] transition-colors group-hover:bg-[#c6d85b] group-hover:text-[#302231] group-focus:bg-[#c6d85b] group-focus:text-[#302231] md:text-base">
+              <span className="inline-block border-b border-l border-[#302231]/55 bg-[#eee8dc]/90 px-2 py-1 font-display text-[9px] font-semibold tracking-[0.1em] text-[#302231] uppercase transition-colors group-hover:border-[#87972f] group-hover:text-[#87972f] group-focus:border-[#87972f] group-focus:text-[#87972f] md:text-xs">
                 {destination.key === "studio" ? "Studio philosophy" : destination.key === "projects" ? "Projects district" : tNav(destination.key)}
               </span>
-              <span className={`mt-1 hidden bg-[#eee8dc]/94 px-1 font-serif text-xs text-[#302231] transition-opacity md:block ${hovered === destination.key ? "opacity-100" : "opacity-0"}`}>{destination.subtitle} →</span>
+              <span className={`mt-1 hidden border-l border-[#87972f]/70 bg-[#eee8dc]/88 px-2 py-0.5 font-serif text-[11px] italic text-[#594158] transition-opacity md:block ${hovered === destination.key ? "opacity-100" : "opacity-0"}`}>{destination.subtitle} →</span>
             </button>
           ))}
         </motion.div>
