@@ -192,11 +192,20 @@ export function CityMapHero() {
             })}
 
             <g className="cursor-pointer" onMouseEnter={() => setHovered("studio")} onMouseLeave={() => setHovered(null)} onClick={() => navigate(destinations[0])}>
-              <motion.path d="M557 -30 C548 17 572 48 565 86 C558 125 577 153 568 193 C560 231 575 263 560 301 C555 314 552 326 551 340 C567 344 579 337 588 324 C600 305 595 281 603 258 C614 224 596 194 606 161 C617 124 598 95 606 58 C611 31 600 5 585 -30Z" fill={hovered === "studio" ? "#c6d85b" : "#bdca77"} fillOpacity={hovered === "studio" ? 0.72 : 0.48} stroke="#66703c" strokeWidth="0.9" filter="url(#hand-drawn)" />
-              <path d="M572 -20 C565 24 584 52 576 89 C569 127 588 158 578 194 C569 229 585 258 570 294 C566 305 564 316 565 329" fill="none" stroke="#758044" strokeWidth="0.75" opacity="0.62" />
+              <motion.path d="M557 -30 C548 17 572 48 565 86 C558 125 577 153 568 193 C560 231 575 263 560 301 C556 314 553 326 552 339 C551 350 546 359 538 368 C545 372 552 371 558 365 C565 358 568 349 568 340 C575 337 582 332 588 324 C600 305 595 281 603 258 C614 224 596 194 606 161 C617 124 598 95 606 58 C611 31 600 5 585 -30Z" fill={hovered === "studio" ? "#c6d85b" : "#bdca77"} fillOpacity={hovered === "studio" ? 0.72 : 0.48} stroke="#66703c" strokeWidth="0.9" filter="url(#hand-drawn)" />
+              <path d="M572 -20 C565 24 584 52 576 89 C569 127 588 158 578 194 C569 229 585 258 570 294 C566 305 564 316 565 329 C564 343 557 354 545 365" fill="none" stroke="#758044" strokeWidth="0.75" opacity="0.62" />
             </g>
 
             <path d="M398 350 C424 322 454 325 479 300 C516 308 547 296 579 286 C614 280 643 302 680 291 L712 315 L705 344 C731 359 739 386 726 412 L738 445 C726 463 708 470 716 494 C682 492 661 507 638 519 C608 527 581 510 550 524 L513 501 C487 508 462 499 442 481 L409 472 C416 452 408 436 389 420 C401 399 401 383 382 369Z" fill="#dce79b" fillOpacity="0.08" stroke="none" filter="url(#hand-drawn)" />
+            <g opacity="0.42" filter="url(#hand-drawn)">
+              <path d="M518 347 C529 338 544 340 554 350 C550 361 539 370 523 371 C515 365 513 356 518 347Z" fill="#aeba63" fillOpacity="0.2" stroke="#66703c" strokeWidth="0.45" />
+              <path d="M539 362 C550 354 563 357 570 367 C565 377 554 381 542 377Z" fill="#aeba63" fillOpacity="0.14" stroke="none" />
+              <g fill="none" stroke="#66703c" strokeWidth="0.45">
+                <circle cx="523" cy="350" r="5" /><circle cx="531" cy="361" r="7" /><circle cx="548" cy="369" r="5" />
+                <path d="M515 358 L541 347 M520 365 L550 354 M533 374 L561 362" />
+              </g>
+              <path d="M545 365 C536 373 529 378 522 383" fill="none" stroke="#758044" strokeWidth="0.55" strokeDasharray="2 3" />
+            </g>
             <g fill="none" stroke="#66703c" strokeWidth="0.55" opacity="0.5">
               <path d="M398 350 C424 322 454 325 479 300" /><path d="M579 286 C614 280 643 302 680 291 L712 315" /><path d="M738 445 C726 463 708 470 716 494" /><path d="M638 519 C608 527 581 510 550 524" /><path d="M442 481 L409 472" />
             </g>
@@ -280,7 +289,7 @@ export function CityMapHero() {
 
       <div className="pointer-events-none absolute left-6 top-32 z-30 hidden md:left-10 md:top-36 md:block">
         <p className="font-display text-[10px] font-semibold tracking-[0.14em] text-[#302231] uppercase">Welcome to BrainSt</p>
-        <p className="mt-2 max-w-[260px] font-serif text-xl leading-6 text-[#302231]">All roads lead to Brainst, choose one.</p>
+        <p className="mt-2 max-w-[260px] font-serif text-xl leading-6 text-[#302231]">All roads lead to Brainst.<br />Choose one.</p>
       </div>
 
       <div className="absolute bottom-3 left-1/2 z-30 -translate-x-1/2 font-display text-[8px] tracking-[0.16em] text-[#685969] uppercase md:bottom-6 md:text-[9px]">Scroll to continue ↓</div>
