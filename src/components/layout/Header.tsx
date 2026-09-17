@@ -15,6 +15,7 @@ const navKeys = [
   "publications",
   "services",
   "contact",
+  "projectQuestionnaire",
   "brainstormingEngine",
 ] as const;
 
@@ -28,6 +29,7 @@ const navPaths: Record<(typeof navKeys)[number], string> = {
   publications: "publications",
   services: "services",
   contact: "contact",
+  projectQuestionnaire: "project-questionnaire",
 };
 
 export function Header() {
