@@ -250,52 +250,63 @@ export function CityMapHero() {
                 onMouseLeave={() => setWordmarkHovered(false)}
                 onFocus={() => setWordmarkHovered(true)}
                 onBlur={() => setWordmarkHovered(false)}
-                aria-label="BrainSt. Hover to reveal Brainstorming."
+                aria-label="BrainSt. Hover to reveal the studio manifesto."
               >
                 <span className="font-display text-4xl font-bold tracking-[0.08em] text-[#302231] uppercase md:text-5xl">BrainSt</span>
-                <AnimatePresence>
-                  {wordmarkHovered && (
-                    <motion.span
-                      className="absolute left-full top-0 font-display text-4xl font-bold tracking-[0.08em] text-[#302231] uppercase md:text-5xl"
-                      initial={{ x: 24, opacity: 0, clipPath: "inset(0 0 0 100%)" }}
-                      animate={{ x: 0, opacity: 1, clipPath: "inset(0 0 0 0%)" }}
-                      transition={{ duration: 0.25, ease: [0.65, 0, 0.35, 1] }}
-                      exit={{ x: 18, opacity: 0, clipPath: "inset(0 0 0 100%)", transition: { duration: 0.22, delay: 0.56, ease: [0.65, 0, 0.35, 1] } }}
-                    >
-                      orming
-                    </motion.span>
-                  )}
-                </AnimatePresence>
               </button>
-              <div className="relative z-30 mt-2 h-8 w-full">
+              <div className="relative z-30 mt-2 h-36 w-full">
                 <motion.p
                   className="absolute inset-x-0 top-0 whitespace-nowrap font-serif text-sm font-semibold text-[#302231]"
                   initial={false}
                   animate={{ opacity: wordmarkHovered ? 0 : 1 }}
-                  transition={{ duration: 0.22, delay: wordmarkHovered ? 0.1 : 0.78, ease: "easeOut" }}
+                  transition={{ duration: 0.2, delay: wordmarkHovered ? 0 : 0.55, ease: "easeOut" }}
                 >
                   Ideas that meet landscape
                 </motion.p>
                 <AnimatePresence>
                   {wordmarkHovered && (
-                    <motion.p className="absolute inset-x-0 top-[-3px] flex items-baseline justify-center gap-2.5 whitespace-nowrap font-serif text-base font-bold text-[#87972f] md:gap-3.5 md:text-xl">
-                      {["IDEAS", "THAT", "MEET", "LANDSCAPE"].map((word, index) => (
-                        <motion.span
-                          key={word}
-                          className="inline-block origin-bottom"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.88, transition: { duration: 0.2, delay: (3 - index) * 0.1, ease: [0.4, 0, 1, 1] } }}
-                          transition={{
-                            duration: 0.32,
-                            delay: 0.25 + index * 0.25,
-                            ease: [0.32, 0, 0.2, 1],
-                          }}
-                        >
-                          {word}
-                        </motion.span>
-                      ))}
-                    </motion.p>
+                    <motion.div
+                      className="absolute left-1/2 top-[-8px] w-[min(90vw,500px)] -translate-x-1/2 px-8 py-5"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0, transition: { duration: 0.18, delay: 0.38 } }}
+                    >
+                      <motion.div
+                        className="absolute inset-0 -z-10 bg-[#e8e1d3]"
+                        style={{ clipPath: "polygon(4% 16%, 13% 4%, 38% 8%, 57% 0%, 82% 7%, 97% 20%, 94% 47%, 100% 72%, 86% 95%, 58% 91%, 38% 100%, 12% 91%, 0% 69%, 6% 43%)" }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.96 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.22 }}
+                      />
+                      <motion.p
+                        className="font-display text-xl font-bold tracking-[0.06em] text-[#302231] uppercase md:text-3xl"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 5, transition: { duration: 0.18, delay: 0.24 } }}
+                        transition={{ duration: 0.35, delay: 0.15, ease: [0.32, 0, 0.2, 1] }}
+                      >
+                        Ideas come first.
+                      </motion.p>
+                      <motion.p
+                        className="mt-2 font-serif text-sm font-semibold text-[#302231] md:text-base"
+                        initial={{ opacity: 0, y: 7 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 5, transition: { duration: 0.18, delay: 0.12 } }}
+                        transition={{ duration: 0.32, delay: 0.45, ease: [0.32, 0, 0.2, 1] }}
+                      >
+                        BrainStorming is the fun part.
+                      </motion.p>
+                      <motion.p
+                        className="mt-2 font-display text-xs font-semibold tracking-[0.14em] text-[#87972f] uppercase md:text-sm"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 5, transition: { duration: 0.16 } }}
+                        transition={{ duration: 0.3, delay: 0.7, ease: [0.32, 0, 0.2, 1] }}
+                      >
+                        Then we get to work.
+                      </motion.p>
+                    </motion.div>
                   )}
                 </AnimatePresence>
               </div>
