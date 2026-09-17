@@ -1124,6 +1124,150 @@ export const brainstormReferences: BrainstormReference[] = [
     nbs: ["Watershed management", "Flood storage", "Native habitat"],
     healthThemes: ["Walking", "Climate safety", "Community open space"],
   },
+  {
+    id: "crossrail-place-roof-garden",
+    title: {
+      en: "Crossrail Place Roof Garden",
+      it: "Giardino Pensile Crossrail Place",
+      ro: "Gradina de Acoperis Crossrail Place",
+    },
+    designer: "Gillespies",
+    location: {
+      en: "London, England, United Kingdom",
+      it: "Londra, Inghilterra, Regno Unito",
+      ro: "Londra, Anglia, Regatul Unit",
+    },
+    sourceId: "landezine",
+    sourceUrl: "https://landezine.com/crossrail-place-roof-garden-by-gillespies/",
+    imageUrl: "https://landezine.com/wp-content/uploads/2016/05/00_Crossrail-Station-Roof-Garden_Jason-Gairn-730x383.jpg",
+    imageCredit: "Photo from the Landezine project page. Main image credit: Jason Gairn. Confirm reuse rights with the credited rights holder.",
+    snippet: {
+      en: "A 5,300-square-metre public roof garden in Canary Wharf, organised as a sheltered planted walk with exotic species, gathering spaces and community uses.",
+      it: "Un giardino pensile pubblico di 5.300 metri quadrati a Canary Wharf, organizzato come passeggiata riparata con specie esotiche e spazi collettivi.",
+      ro: "O gradina publica pe acoperis de 5.300 de metri patrati in Canary Wharf, organizata ca promenada protejata cu specii exotice si spatii comunitare.",
+    },
+    aiSummary: {
+      en: "A verified English garden precedent for roof landscapes, sheltered planting, public access, horticultural collections and infrastructure-led placemaking.",
+      it: "Un precedente inglese verificato per giardini pensili, vegetazione protetta, accesso pubblico e placemaking infrastrutturale.",
+      ro: "Un precedent englez verificat pentru gradini pe acoperis, plantare protejata, acces public si infrastructura urbana.",
+    },
+    tags: ["england", "uk", "london", "garden", "public garden", "roof garden", "infrastructure", "horticulture"],
+    typology: "Public roof garden",
+    materials: ["Timber structure", "Planting beds", "Stone paths"],
+    plantingStyle: "Exotic horticultural collection",
+    climate: "Temperate maritime",
+    colourPalette: ["#31513d", "#789263", "#c8b98c", "#6d5541"],
+    scale: "Medium",
+    atmosphere: "Sheltered, lush, exploratory",
+    nbs: ["Urban greening", "Rainwater irrigation", "Microclimate"],
+    healthThemes: ["Public access", "Walking", "Outdoor learning"],
+  },
+  {
+    id: "neo-bankside",
+    title: { en: "NEO Bankside", it: "NEO Bankside", ro: "NEO Bankside" },
+    designer: "Gillespies",
+    location: {
+      en: "London, England, United Kingdom",
+      it: "Londra, Inghilterra, Regno Unito",
+      ro: "Londra, Anglia, Regatul Unit",
+    },
+    sourceId: "landezine",
+    sourceUrl: "https://landezine.com/neo-bankside-by-gillespies/",
+    imageUrl: "https://landezine.com/wp-content/uploads/2012/11/06_NEO_Bankside-COPYRIGHT-GILLESPIES-730x507.jpg",
+    imageCredit: "Photo from the Landezine project page. Image copyright credits include Gillespies, Jason Gairn and Edmund Sumner.",
+    snippet: {
+      en: "Richly detailed London garden spaces with native woodland planting, public access, rainwater harvesting and intimate paths around residential pavilions.",
+      it: "Giardini londinesi riccamente articolati con vegetazione boschiva nativa, accesso pubblico, recupero dell'acqua piovana e percorsi intimi.",
+      ro: "Gradini londoneze bogat detaliate, cu plantare inspirata de padure, acces public, colectarea apei pluviale si alei intime.",
+    },
+    aiSummary: {
+      en: "A verified English urban-garden precedent for naturalistic woodland planting, seasonal character, biodiversity and layered public-private thresholds.",
+      it: "Un precedente inglese verificato per giardini urbani, vegetazione boschiva naturalistica, biodiversita e soglie pubblico-private.",
+      ro: "Un precedent englez verificat pentru gradini urbane, plantare naturalista de padure, biodiversitate si tranzitii public-private.",
+    },
+    tags: ["england", "uk", "london", "garden", "residential garden", "public garden", "woodland", "naturalistic planting"],
+    typology: "Urban garden",
+    materials: ["Stone", "Pebbles", "Native planting", "Water features"],
+    plantingStyle: "Native woodland naturalism",
+    climate: "Temperate maritime",
+    colourPalette: ["#344d38", "#879273", "#b9aa85", "#4e4942"],
+    scale: "Medium",
+    atmosphere: "Layered, peaceful, naturalistic",
+    nbs: ["Rainwater harvesting", "Biodiversity habitat", "Urban cooling"],
+    healthThemes: ["Contact with nature", "Walking", "Restoration"],
+  },
+  {
+    id: "holland-park-villas",
+    title: { en: "Holland Park Villas", it: "Holland Park Villas", ro: "Holland Park Villas" },
+    designer: "Gillespies",
+    location: {
+      en: "London, England, United Kingdom",
+      it: "Londra, Inghilterra, Regno Unito",
+      ro: "Londra, Anglia, Regatul Unit",
+    },
+    sourceId: "landezine",
+    sourceUrl: "https://landezine.com/holland-park-villas-by-gillespies/",
+    imageUrl: "https://landezine.com/wp-content/uploads/2019/07/01_main-photo-1270x730.jpg",
+    imageCredit: "Photo from the Landezine project page. Image copyright: John Sturrock and Gillespies.",
+    snippet: {
+      en: "A sequence of London courtyard and woodland gardens with mature trees, naturalistic understory planting, water, clipped hedges and winding paths.",
+      it: "Una sequenza di corti e giardini boschivi londinesi con alberi maturi, sottobosco naturalistico, acqua, siepi formali e percorsi sinuosi.",
+      ro: "O secventa de curti si gradini de padure londoneze cu arbori maturi, plantare naturalista, apa, garduri tunse si alei sinuoase.",
+    },
+    aiSummary: {
+      en: "A verified English garden precedent combining formal garden structure with naturalistic woodland planting and a strong seasonal experience.",
+      it: "Un precedente inglese verificato che combina struttura formale, vegetazione boschiva naturalistica ed esperienza stagionale.",
+      ro: "Un precedent englez verificat care combina structura formala cu plantare naturalista de padure si experienta sezoniera.",
+    },
+    tags: ["england", "uk", "london", "garden", "courtyard garden", "woodland garden", "naturalistic planting", "formal hedges"],
+    typology: "Residential garden",
+    materials: ["Stone paths", "Water", "Clipped hedges", "Woodland planting"],
+    plantingStyle: "Naturalistic woodland and formal structure",
+    climate: "Temperate maritime",
+    colourPalette: ["#2e4a35", "#72856a", "#c0b69a", "#47443f"],
+    scale: "Small",
+    atmosphere: "Mature, tranquil, sensory",
+    nbs: ["Habitat planting", "Water attenuation", "Tree retention"],
+    healthThemes: ["Sensory experience", "Restoration", "Walking"],
+  },
+  {
+    id: "vauxhall-pleasure-gardens",
+    title: {
+      en: "Vauxhall Pleasure Gardens",
+      it: "Vauxhall Pleasure Gardens",
+      ro: "Vauxhall Pleasure Gardens",
+    },
+    designer: "DSDHA",
+    location: {
+      en: "London, England, United Kingdom",
+      it: "Londra, Inghilterra, Regno Unito",
+      ro: "Londra, Anglia, Regatul Unit",
+    },
+    sourceId: "landezine",
+    sourceUrl: "https://landezine.com/vauxhall-pleasure-gardens-by-dsdha/",
+    imageUrl: "https://landezine.com/wp-content/uploads/2024/04/118_N65_large-1270x850.jpg",
+    imageCredit: "Photo from the Landezine project page. Photo credits: Dennis Gilbert, Edward Simpson and Deborah Saunt.",
+    snippet: {
+      en: "The regeneration of London's historic eighteenth-century pleasure gardens through new paths, tree-lined spaces, a landscaped amphitheatre and cultural programming.",
+      it: "La rigenerazione degli storici pleasure gardens londinesi del Settecento con nuovi percorsi, spazi alberati, anfiteatro paesaggistico e programmi culturali.",
+      ro: "Regenerarea gradinilor istorice de agrement din Londra prin alei noi, spatii arborate, amfiteatru peisager si programe culturale.",
+    },
+    aiSummary: {
+      en: "A verified English heritage-garden precedent for historic identity, public events, park regeneration, social life and contemporary landscape interventions.",
+      it: "Un precedente inglese verificato per identita storica, eventi pubblici, rigenerazione del parco e interventi contemporanei.",
+      ro: "Un precedent englez verificat pentru identitate istorica, evenimente publice, regenerare si interventii peisagere contemporane.",
+    },
+    tags: ["england", "uk", "london", "garden", "pleasure garden", "heritage", "historic garden", "public park"],
+    typology: "Heritage garden",
+    materials: ["Paths", "Trees", "Concrete", "Lawn"],
+    plantingStyle: "Historic public garden renewal",
+    climate: "Temperate maritime",
+    colourPalette: ["#39533b", "#81916b", "#c6b68d", "#64584c"],
+    scale: "Medium",
+    atmosphere: "Historic, social, open",
+    nbs: ["Urban tree canopy", "Park regeneration", "Green connectivity"],
+    healthThemes: ["Community life", "Walking", "Public events"],
+  },
 ];
 
 export function sourceName(sourceId: BrainstormSourceId) {
@@ -1137,6 +1281,8 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
 
   const terms = expandSearchTerms(rawTerms);
   const wantsEnglishGarden = /\b(english|landscape)\s+(landscape\s+)?garden\b/.test(searchText);
+  const wantsEngland = rawTerms.some((term) => ["english", "england"].includes(term));
+  const wantsGarden = rawTerms.some((term) => ["garden", "gardens", "giardino", "gradina"].includes(term));
   const wantsItaly = rawTerms.some((term) => ["italian", "italy", "italia"].includes(term));
   const wantsSchoolyard = rawTerms.some((term) =>
     ["schoolyard", "school", "playground", "scolastico", "scolastica"].includes(term)
@@ -1195,6 +1341,8 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
       }, 0);
 
       const matchesEnglishGarden =
+        (!/(healthcare|hospital|school|schoolyard|playground)/.test(referenceClassification) &&
+          /garden/.test(referenceClassification)) ||
         /(heritage|cultural landscape|estate|historic garden)/.test(referenceClassification) ||
         typology === "park" ||
         typology === "park and plaza";
@@ -1210,6 +1358,15 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
         score: score + exactPhraseBoost + semanticIntentBoost,
         index,
         matchesEnglishGarden,
+        matchesGarden:
+          !/(healthcare|hospital|school|schoolyard|playground)/.test(referenceClassification) &&
+          /garden/.test(referenceClassification),
+        matchesEngland:
+          location.includes("england") ||
+          location.includes("united kingdom") ||
+          location.includes("london") ||
+          tags.includes("england") ||
+          tags.includes("uk"),
         matchesItaly:
           location.includes("italy") ||
           location.includes("italia") ||
@@ -1233,15 +1390,21 @@ export function searchBrainstormReferences(query: string, filters: string[]) {
   const strictRanked = ranked.filter(
     (item) =>
       (!wantsEnglishGarden || item.matchesEnglishGarden) &&
+      (!wantsEngland || item.matchesEngland) &&
+      (!wantsEngland || !wantsGarden || item.matchesGarden) &&
       (!wantsItaly || item.matchesItaly) &&
       (!wantsSchoolyard || item.matchesSchoolyard)
   );
 
+  const locationRanked = ranked.filter(
+    (item) => (!wantsItaly || item.matchesItaly) && (!wantsEngland || item.matchesEngland)
+  );
   const bestRanked =
     strictRanked.length > 0
       ? strictRanked
-      : [...ranked].sort((a, b) => {
+      : [...locationRanked].sort((a, b) => {
           if (wantsItaly && a.matchesItaly !== b.matchesItaly) return a.matchesItaly ? -1 : 1;
+          if (wantsEngland && a.matchesEngland !== b.matchesEngland) return a.matchesEngland ? -1 : 1;
           if (wantsEnglishGarden && a.matchesEnglishGarden !== b.matchesEnglishGarden) {
             return a.matchesEnglishGarden ? -1 : 1;
           }
@@ -1267,6 +1430,8 @@ function expandSearchTerms(terms: string[]) {
   const synonyms: Record<string, string[]> = {
     italian: ["italian", "italy", "italia", "roma", "rome", "milan", "milano", "bologna"],
     italy: ["italian", "italy", "italia"],
+    english: ["english", "england", "uk", "london"],
+    england: ["england", "english", "uk", "london"],
     school: ["school", "schoolyard", "scolastico", "scolastica"],
     schoolyard: ["schoolyard", "school", "scolastico", "scolastica", "playground"],
     playground: ["playground", "schoolyard", "play"],
