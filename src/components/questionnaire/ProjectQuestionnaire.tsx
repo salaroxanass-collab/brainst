@@ -49,7 +49,7 @@ const baseQuestions: Question[][] = [
         { value: "community", label: "Community group" },
       ],
     },
-    { id: "area", label: "What is the estimated site area?", help: "An approximate figure is enough.", type: "number", placeholder: "Square metres" },
+    { id: "area", label: "What is the estimated site area in square metres (m²)?", help: "An approximate figure is enough.", type: "number", placeholder: "Area in m²" },
   ],
   [
     { id: "projectType", label: "What type of project do you want to create?", help: "Your choice determines the next questions.", type: "single", options: projectTypes },
