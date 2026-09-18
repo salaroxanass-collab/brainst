@@ -55,7 +55,7 @@ export function HomeSections() {
               />
               <Link
                 href={`/${locale}/${key}`}
-                className="mt-8 inline-block font-display text-xs tracking-[0.25em] text-clay uppercase transition hover:text-forest"
+                className="mt-8 inline-block font-display text-base font-bold tracking-[0.16em] text-clay uppercase transition hover:text-forest md:text-lg"
               >
                 {t("ctaExplore")} →
               </Link>
